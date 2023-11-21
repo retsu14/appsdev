@@ -15,19 +15,7 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
   };
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post("/api/users/login", {
-        email,
-        password,
-      });
-      console.log(response.data); // Handle success
-      localStorage.setItem("token", response.data.token); // Store token in localStorage
-    } catch (error) {
-      console.error(error);
-      console.error(error.response.data); // Handle error
-    }
-  };
+
   return (
     <>
       <div className="flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-200 py-10">
@@ -90,10 +78,7 @@ const Login = () => {
                 </div>
 
                 <div className="mb-3">
-                  <button
-                    className="mb-1.5 block w-full text-center text-white bg-purple-700 hover:bg-purple-900 px-2 py-1.5 rounded-md"
-                    onClick={handleLogin}
-                  >
+                  <button className="mb-1.5 block w-full text-center text-white bg-purple-700 hover:bg-purple-900 px-2 py-1.5 rounded-md">
                     Sign in
                   </button>
                 </div>

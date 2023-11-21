@@ -17,7 +17,8 @@ const App = () => {
             <Navbar1 />
             <div className="flex-grow overflow-y-auto p-4">
               <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route
                   path="/barangayofficials"
