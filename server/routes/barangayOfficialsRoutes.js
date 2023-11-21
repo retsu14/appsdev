@@ -1,5 +1,3 @@
-// routes/barangayOfficialsRoutes.js
-
 const express = require("express");
 const {
   getBarangayOfficials,

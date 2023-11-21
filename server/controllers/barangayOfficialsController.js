@@ -22,10 +22,28 @@ const createBarangayOfficial = asyncHandler(async (req, res) => {
     email,
     purok,
   } = req.body;
+  if (
+    !fname ||
+    !lname ||
+    !isActive ||
+    !term ||
+    !position ||
+    !age ||
+    !gender ||
+    !birthday ||
+    !phonenumber ||
+    !birthplace ||
+    !email ||
+    !purok
+  ) {
+    res.status(400);
+    throw new Error("Error");
+  }
 
   // Add any additional checks you need for admin create
 
   const official = await bOfficials.create({
+    user: req.user.id,
     fname,
     lname,
     isActive,
