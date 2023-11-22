@@ -147,6 +147,8 @@ export function Navbar1() {
       style={{ zIndex: 100 }}
     >
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+        <div></div>
+
         <div className="items-center gap-x-1 hidden sm:hidden md:hidden lg:flex">
           <CgProfile className="text-2xl" />
         </div>
