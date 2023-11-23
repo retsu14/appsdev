@@ -52,20 +52,54 @@ const loginUser = asyncHandler(async (req, res) => {
   //find for user
   const user = await User.findOne({ email });
 
-  if (user && bcrypt.compare(password, user.password)) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400);
-    throw new Error("Invalid credentials");
+  if (!user) {
+    res.status(401).json({ message: "Incorrect password or email" });
   }
-  res.json({
-    message: "Login User",
-  });
+
+  // if (user && bcrypt.compare(password, user.password)) {
+  //   const token = generateToken(user._id);
+  //   res
+  //     .cookie("token", token, {
+  //       withCredentials: true,
+  //       httpOnly: false,
+  //     })
+  //     .json({
+  //       _id: user.id,
+  //       name: user.name,
+  //       email: user.email,
+  //     });
+  // } else {
+  //   res.status(400);
+  //   throw new Error("Invalid credentials");
+  // }
+  try {
+    // Compare passwords
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (isPasswordMatch) {
+      // Passwords match, generate token and send response
+      const token = generateToken(user._id);
+      // return res
+      //   .cookie("token", token, {
+      //     withCredentials: true,
+      //     httpOnly: false,
+      //     secure: process.env.NODE_ENV === "production",
+      //   })
+      res.json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: token,
+        message: "Login Successful",
+      });
+    } else {
+      // Passwords do not match
+      return res.status(401).json({ message: "Incorrect password or email" });
+    }
+  } catch (error) {
+    // Handle bcrypt.compare error
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 // @desc   Get User Data
@@ -82,7 +116,16 @@ const getMe = asyncHandler(async (req, res) => {
 
 //Generate JWt
 const generateToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "30d" });
+  return jwt.sign({ id, role }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+
+  // res.cookie("jwt", token, {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV !== "development",
+  //   sameSite: "strict",
+  //   maxAge: 30 * 24 * 60 * 60 * 1000,
+  // });
 };
 module.exports = {
   registerUser,

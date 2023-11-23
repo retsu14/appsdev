@@ -1,10 +1,21 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { login, reset } from "../features/auth/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { email, password } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -12,8 +23,48 @@ const Login = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const onSubmit = (e) => {
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  const onSubmit = async (e) => {
     e.preventDefault();
+
+    // try {
+    //   const { data } = await axios.post(
+    //     `${URL}/users/login`,
+    //     {
+    //       ...formData,
+    //     },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   console.log(data);
+    //   const { success, message } = data;
+    //   if (success) {
+    //     handleSuccess(message);
+    //     setTimeout(() => {
+    //       navigate("/");
+    //     });
+    //   } else {
+    //     handleError(message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    const userData = {
+      email,
+      password,
+    };
+    dispatch(login(userData));
   };
 
   return (
@@ -56,25 +107,11 @@ const Login = () => {
                     id="password"
                     value={password}
                     onChange={onChange}
-                    placeholder="*********"
+                    placeholder="Enter password"
                     className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
                     name="password"
                     required
                   />
-                </div>
-
-                <div className="mb-3 flex flex-wrap content-center">
-                  <input
-                    id="remember"
-                    type="checkbox"
-                    className="mr-1 checked:bg-purple-700"
-                  />
-                  <label className="mr-auto text-xs font-semibold">
-                    Remember
-                  </label>
-                  <a href="#" className="text-xs font-semibold text-purple-700">
-                    Forgot password?
-                  </a>
                 </div>
 
                 <div className="mb-3">
@@ -101,7 +138,7 @@ const Login = () => {
           >
             <img
               className="w-full h-full bg-center bg-no-repeat bg-cover rounded-r-md bg-stone-200"
-              src="/ibabao2.png"
+              src="/ibabao.jpg"
             />
           </div>
         </div>

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CgProfile } from "react-icons/cg";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, reset } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Navbar,
   MobileNav,
@@ -10,9 +13,17 @@ import {
 } from "@material-tailwind/react";
 
 export function Navbar1() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onLogout = async () => {
+    await dispatch(reset());
+    await dispatch(logout());
+    navigate("/login");
+  };
   const [openNav, setOpenNav] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
@@ -148,10 +159,10 @@ export function Navbar1() {
     >
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <div></div>
-
         <div className="items-center gap-x-1 hidden sm:hidden md:hidden lg:flex">
-          <CgProfile className="text-2xl" />
+          <button onClick={onLogout}>Logout</button>
         </div>
+
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
