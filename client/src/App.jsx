@@ -6,6 +6,10 @@ import { Navbar1 } from "./components/Navbar1";
 import Dashboard from "./pages/Dashboard";
 import BarangayOfficials from "./pages/BarangayOfficials";
 import SKMembers from "./pages/SKMembers";
+import HouseholdRecords from "./pages/HouseholdRecords";
+import ResidentsList from "./pages/ResidentsList";
+import Feedback from "./pages/Feedback";
+import Announcement from "./pages/Announcement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,7 +25,7 @@ const App = () => {
           <Sidebar />
           <div className="flex flex-col flex-grow overflow-hidden">
             <Navbar1 />
-            <div className="flex-grow overflow-y-auto p-4">
+            <div className="flex-grow overflow-y-auto">
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route
@@ -29,6 +33,13 @@ const App = () => {
                   element={<BarangayOfficials />}
                 />
                 <Route path="/skmembers" element={<SKMembers />} />
+                <Route
+                  path="/householdrecords"
+                  element={<HouseholdRecords />}
+                />
+                <Route path="/residentslist" element={<ResidentsList />} />
+                <Route path="/announcements" element={<Announcement />} />
+                <Route path="/feedback" element={<Feedback />} />
               </Routes>
             </div>
           </div>

@@ -96,30 +96,38 @@ export function Sidebar() {
           </AccordionBody>
         </Accordion>
         <hr className="my-2 border-blue-gray-50" />
-        <ListItem>
-          <ListItemPrefix>
-            <FaHouseChimneyUser />
-          </ListItemPrefix>
-          Household Records
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <FaPeopleGroup />
-          </ListItemPrefix>
-          Residents List
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <MdFeedback />
-          </ListItemPrefix>
-          Announcement
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <VscFeedback />
-          </ListItemPrefix>
-          Feedback
-        </ListItem>
+        <Link to="householdrecords">
+          <ListItem>
+            <ListItemPrefix>
+              <FaHouseChimneyUser />
+            </ListItemPrefix>
+            Household Records
+          </ListItem>
+        </Link>
+        <Link to="residentslist">
+          <ListItem>
+            <ListItemPrefix>
+              <FaPeopleGroup />
+            </ListItemPrefix>
+            Residents List
+          </ListItem>
+        </Link>
+        <Link to="/announcements">
+          <ListItem>
+            <ListItemPrefix>
+              <MdFeedback />
+            </ListItemPrefix>
+            Announcement
+          </ListItem>
+        </Link>
+        <Link to="/feedback">
+          <ListItem>
+            <ListItemPrefix>
+              <VscFeedback />
+            </ListItemPrefix>
+            Feedback
+          </ListItem>
+        </Link>
       </List>
     </Card>
   );

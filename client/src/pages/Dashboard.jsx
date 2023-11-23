@@ -16,8 +16,8 @@ const Dashboard = () => {
     };
   });
   return (
-    <div className="min-h-full">
-      <div className="text-center text-xl font-bold">DASHBOARD</div>
+    <div className="min-h-full bg-gray-200">
+      <div className="text-center text-xl font-bold pt-4">DASHBOARD</div>
     </div>
   );
 };

@@ -34,9 +34,8 @@ const Login = () => {
     }
     if (isSuccess || user) {
       navigate("/dashboard");
-      toast.success("Login Successful", {
-        progressStyle: { visibility: "hidden" },
-        autoClose: 3000,
+      toast.success("Login Successful!", {
+        autoClose: 2000,
       });
     }
     dispatch(reset());

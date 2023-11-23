@@ -1,13 +1,11 @@
-import React from "react";
-
-const BarangayOfficials = () => {
+const HouseholdRecords = () => {
   return (
     <div className="min-h-full bg-gray-200">
       <div className="text-center font-bold text-xl pt-4">
-        BARANGAY OFFICIALS
+        HOUSEHOLD RECORDS
       </div>
     </div>
   );
 };
 
-export default BarangayOfficials;
+export default HouseholdRecords;
