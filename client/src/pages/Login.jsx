@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+
   const { email, password } = formData;
 
   const navigate = useNavigate();
@@ -26,10 +26,18 @@ const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message, {
+        position: toast.POSITION.TOP_CENTER,
+        progressStyle: { visibility: "hidden" },
+        autoClose: 1000,
+      });
     }
     if (isSuccess || user) {
-      navigate("/");
+      navigate("/dashboard");
+      toast.success("Login Successful", {
+        progressStyle: { visibility: "hidden" },
+        autoClose: 3000,
+      });
     }
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
@@ -37,34 +45,11 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   const { data } = await axios.post(
-    //     `${URL}/users/login`,
-    //     {
-    //       ...formData,
-    //     },
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   console.log(data);
-    //   const { success, message } = data;
-    //   if (success) {
-    //     handleSuccess(message);
-    //     setTimeout(() => {
-    //       navigate("/");
-    //     });
-    //   } else {
-    //     handleError(message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     const userData = {
       email,
       password,
     };
-    dispatch(login(userData));
+    await dispatch(login(userData));
   };
 
   return (
