@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const verifyCookie = async () => {
-      if (!cookies.token) {
-        navigate("/login");
-      }
-    };
-  });
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
   return (
     <div className="min-h-full bg-gray-200">
       <div className="text-center text-xl font-bold pt-4">DASHBOARD</div>
