@@ -15,7 +15,7 @@ const Dashboard = () => {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-full bg-gray-200">
+    <div className="h-screen bg-gray-200">
       <div className="text-center text-xl font-bold pt-4">DASHBOARD</div>
     </div>
   );

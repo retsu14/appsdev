@@ -26,7 +26,7 @@ const App = () => {
           <Sidebar />
           <div className="flex flex-col flex-grow overflow-hidden">
             <Navbar1 />
-            <div className="flex-grow overflow-y-auto">
+            <div className="flex-grow overflow-y-auto lg:ml-[23%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route

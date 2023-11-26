@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { Popover, Transition } from "@headlessui/react";
+import { IoMdNotifications } from "react-icons/io";
+import { FaCircleUser } from "react-icons/fa6";
+import { FaSignOutAlt } from "react-icons/fa";
 import {
   Navbar,
   MobileNav,
@@ -20,7 +24,9 @@ export function Navbar1() {
   const onLogout = async () => {
     await dispatch(reset());
     await dispatch(logout());
-    toast.success("Successfully logged out");
+    toast.success("Successfully logged out", {
+      autoClose: 1000,
+    });
     navigate("/login");
   };
   const [openNav, setOpenNav] = React.useState(false);
@@ -153,18 +159,67 @@ export function Navbar1() {
       </Typography>
     </ul>
   );
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <>
       <ToastContainer />
       <Navbar
-        className="max-w-full px-4 py-2 lg:px-8 lg:py-4 rounded-none"
+        className="max-w-full px-4 py-2 lg:px-8 lg:py-4 rounded-none fixed"
         style={{ zIndex: 100 }}
       >
         <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-          <div></div>
+          <div>
+            <div className="  flex items-center gap-2">
+              <div className="">
+                <img src="ibabao2.png" alt="" className="w-[40px]" />
+              </div>
+              <Typography variant="h6" color="blue-gray">
+                BIUMS
+              </Typography>
+            </div>
+          </div>
           <div className="items-center gap-x-1 hidden sm:hidden md:hidden lg:flex">
-            <button onClick={onLogout}>Logout</button>
+            <IoMdNotifications className="h-6 w-6 text-gray-500" />
+            <div>Welcome, {user && user.name}</div>
+
+            <Popover className="relative">
+              {({ open }) => (
+                <>
+                  <Popover.Button className="p-1.5 rounded-md sm inline-flex items-center text-gray-500 hover:text-opacity-80 focus:outline-none">
+                    <FaCircleUser className="h-6 w-6" />
+                  </Popover.Button>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Popover.Panel className="absolute rounded-md shadow-mb right-2 z-5 mt-0 bg-black w-40 transform translate-y-2">
+                      <div className="relative bg-gray-400 pt-10 pb-5">
+                        <div className="absolute">
+                          <FaCircleUser className="flex items-center ml-11 h-16 w-16 text-gray-500" />
+                          <div className="ml-9 pb-6 ">
+                            <strong>{user && user.name}</strong>
+                          </div>
+                          <button
+                            type="button"
+                            className="flex items-center space-x-2 ml-2"
+                          >
+                            <FaSignOutAlt className="text-gray-500" />
+                            <button onClick={onLogout}>Sign out</button>
+                          </button>
+                        </div>
+                        <div className="bg-white p-20"></div>
+                      </div>
+                    </Popover.Panel>
+                  </Transition>
+                </>
+              )}
+            </Popover>
           </div>
 
           <IconButton

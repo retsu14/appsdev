@@ -35,7 +35,8 @@ const Login = () => {
     if (isSuccess || user) {
       navigate("/dashboard");
       toast.success("Login Successful!", {
-        autoClose: 2000,
+        autoClose: 1000,
+        progressStyle: { visibility: "hidden" },
       });
     }
     dispatch(reset());
@@ -57,7 +58,7 @@ const Login = () => {
         <div className="flex shadow-md">
           <div
             className="flex flex-wrap content-center justify-center rounded-l-md bg-white w-[24rem] h-[32rem]"
-            // style={"width: 24rem; height: 32rem"}
+            // style={"width: 24rem; height: 32rem"}x
           >
             <div className="w-72">
               <h1 className="text-xl font-semibold">Welcome back</h1>
