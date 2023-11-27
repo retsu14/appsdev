@@ -12,6 +12,7 @@ import Feedback from "./pages/Feedback";
 import Announcement from "./pages/Announcement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Card1 } from "./components/Card";
 
 const App = () => {
   return (
@@ -26,7 +27,7 @@ const App = () => {
           <Sidebar />
           <div className="flex flex-col flex-grow overflow-hidden">
             <Navbar1 />
-            <div className="flex-grow overflow-y-auto lg:ml-[23%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
+            <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route

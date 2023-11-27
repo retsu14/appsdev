@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 
-export function Card() {
+export function Card1() {
   return (
     <Card className="w-96">
       <CardHeader floated={false} className="h-80">

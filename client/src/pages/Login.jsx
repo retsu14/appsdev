@@ -57,23 +57,21 @@ const Login = () => {
       <div className="flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-200 py-10">
         <div className="flex shadow-md">
           <div
-            className="flex flex-wrap content-center justify-center rounded-l-md bg-white w-[24rem] h-[32rem]"
+            className="flex flex-wrap content-center justify-center rounded-l-md bg-white w-[24rem] h-[25rem]"
             // style={"width: 24rem; height: 32rem"}x
           >
             <div className="w-72">
               <h1 className="text-xl font-semibold">Welcome back</h1>
-              <small className="text-gray-400">
-                Welcome back! Please enter your details
-              </small>
+              <small className="text-gray-400">Please enter your details</small>
 
               <form onSubmit={onSubmit}>
                 <div className="mb-3">
                   <label className="mb-2 block text-xs font-semibold">
-                    Username
+                    Email
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter username"
+                    placeholder="Enter email"
                     id="email"
                     value={email}
                     onChange={onChange}
@@ -117,7 +115,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className="flex flex-wrap content-center justify-center rounded-r-md w-[24rem] h-[32rem]"
             // style={{width: 24rem; height: 32rem}}
           >
@@ -125,7 +123,7 @@ const Login = () => {
               className="w-full h-full bg-center bg-no-repeat bg-cover rounded-r-md bg-stone-200"
               src="/ibabao.jpg"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </>
