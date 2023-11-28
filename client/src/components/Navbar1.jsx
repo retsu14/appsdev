@@ -166,7 +166,7 @@ export function Navbar1() {
       <ToastContainer />
       <Navbar
         className="max-w-full px-4 py-2 lg:px-8 lg:py-4 rounded-none fixed"
-        style={{ zIndex: 100 }}
+        style={{ zIndex: 999999 }}
       >
         <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
           <div>
@@ -205,13 +205,13 @@ export function Navbar1() {
                           <div className="ml-9 pb-6 ">
                             <strong>{user && user.name}</strong>
                           </div>
-                          <button
+                          <div
                             type="button"
                             className="flex items-center space-x-2 ml-2"
                           >
                             <FaSignOutAlt className="text-gray-500" />
                             <button onClick={onLogout}>Sign out</button>
-                          </button>
+                          </div>
                         </div>
                         <div className="bg-white p-20"></div>
                       </div>

@@ -13,10 +13,20 @@ import Announcement from "./pages/Announcement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Card1 } from "./components/Card";
+import Hero from "./components/LandingPage/Hero";
+import Navbar from "./components/LandingPage/Navbar";
+import About from "./components/LandingPage/About";
+import Events from "./components/LandingPage/Events";
 
 const App = () => {
   return (
     <>
+      {/* <div>
+        <Navbar />
+        <Hero />
+        <About />
+        <Events />
+      </div> */}
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
