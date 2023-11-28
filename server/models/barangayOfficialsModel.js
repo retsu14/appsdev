@@ -15,8 +15,8 @@ const barangayOfficialsSchema = mongoose.Schema({
     required: [true, "Enter last name"],
   },
   isActive: {
-    type: Boolean,
-    default: true,
+    type: String,
+    required: [true, "Enter if active or not"],
   },
   term: {
     type: Date,

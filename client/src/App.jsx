@@ -11,6 +11,7 @@ import ResidentsList from "./pages/ResidentsList";
 import Feedback from "./pages/Feedback";
 import Announcement from "./pages/Announcement";
 import { ToastContainer } from "react-toastify";
+import Register from "./pages/Register";
 import "react-toastify/dist/ReactToastify.css";
 import { Card1 } from "./components/Card";
 import Hero from "./components/LandingPage/Hero";
@@ -31,7 +32,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
         <div className="flex">
           <Sidebar />

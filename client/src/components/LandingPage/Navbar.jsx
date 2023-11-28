@@ -1,7 +1,6 @@
 /* Mix Home and Navbar list */
 import React, { useState, useEffect } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import Register from "./Register";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
