@@ -3,22 +3,18 @@ import { useState } from "react";
 import "./Button1.css";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
-import {
-  Checkbox,
-  Label,
-  TextInput,
-  Select,
-  Datepicker,
-  FileInput,
-} from "flowbite-react";
+import { Label, TextInput, Select, FileInput } from "flowbite-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { createBarangayOfficial } from "../features/barangayOfficials/barangaySlice";
+import { useDispatch } from "react-redux";
 
-function Modal1() {
+function Modal1({ name, positions }) {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    status: "",
+    fname: "",
+    lname: "",
+    isActive: "",
     term: "",
     position: "",
     age: "",
@@ -30,9 +26,9 @@ function Modal1() {
     purok: "",
   });
   const {
-    firstname,
-    lastname,
-    status,
+    fname,
+    lname,
+    isActive,
     term,
     position,
     age,
@@ -51,9 +47,26 @@ function Modal1() {
     boxShadow: "5px 5px 0px rgb(140, 32, 212)",
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     setOpenModal(false);
+
+    const data = {
+      fname,
+      lname,
+      isActive,
+      term,
+      position,
+      age,
+      gender,
+      birthday,
+      phonenumber,
+      birthplace,
+      email,
+      purok,
+    };
+
+    await dispatch(createBarangayOfficial(data));
     setFormData("");
 
     // Your additional form submission logic here
@@ -69,21 +82,15 @@ function Modal1() {
       [e.target.name]: e.target.value,
     }));
   };
-  const handleDateChange = (date) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      term: date,
-    }));
-  };
   return (
     <>
-      <div className="flex lg:justify-end sm:justify-right">
+      <div className="flex lg:justify-end sm:justify-right mb-5 mr-5">
         <Button
           className="Btn w-[200px] md:mt-5 sm:mt-5"
           style={myStyle}
           onClick={() => setOpenModal(true)}
         >
-          Barangay Official
+          {name}
           <IoPersonAddSharp className="svg" />
         </Button>
       </div>
@@ -104,8 +111,7 @@ function Modal1() {
                 <div className="flex justify-center">
                   <FaUserCircle className="w-[20vw] h-[20vh]" />
                 </div>
-
-                <div>
+                <div className="mb-3">
                   <div className="mb-2 block">
                     <Label htmlFor="file-upload" value="UPLOAD PROFILE:" />
                   </div>
@@ -119,9 +125,9 @@ function Modal1() {
                     <TextInput
                       id="fname"
                       type="text"
-                      value={firstname}
+                      value={fname}
                       onChange={onChange}
-                      name="firstname"
+                      name="fname"
                       required
                     />
                   </div>
@@ -132,9 +138,9 @@ function Modal1() {
                     <TextInput
                       id="lname"
                       type="text"
-                      value={lastname}
+                      value={lname}
                       onChange={onChange}
-                      name="lastname"
+                      name="lname"
                       required
                     />
                   </div>
@@ -143,17 +149,18 @@ function Modal1() {
                   <div className="mb-2 block">
                     <Label htmlFor="countries" value="STATUS:" />
                   </div>
-                  <Select
+                  <select
                     id="status"
-                    type="text"
-                    value={status}
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
+                    value={isActive}
                     onChange={onChange}
-                    name="status"
+                    name="isActive"
                     required
                   >
+                    <option></option>
                     <option>ACTIVE</option>
                     <option>INACTIVE</option>
-                  </Select>
+                  </select>
                 </div>
                 <div className="max-w-full mb-3">
                   <div className="mb-2 block">
@@ -174,19 +181,20 @@ function Modal1() {
                   <div className="mb-2 block">
                     <Label htmlFor="countries" value="POSITION:" />
                   </div>
-                  <Select
+                  <select
                     id="position"
-                    type="text"
                     value={position}
                     onChange={onChange}
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     name="position"
                     required
                   >
-                    <option>BRGY. CAPTAIN</option>
-                    <option>BRGY. SECRETARY</option>
-                    <option>BRGY. TREASURER</option>
-                    <option>BRGY. COUNCILOR</option>
-                  </Select>
+                    <option></option>
+                    {positions &&
+                      positions.map(({ name }) => (
+                        <option key={name}>{name}</option>
+                      ))}
+                  </select>
                 </div>
               </div>
               <div className="lg:w-[50%] border p-5 shadow-md">
@@ -210,17 +218,18 @@ function Modal1() {
                   <div className="mb-2 block">
                     <Label htmlFor="countries" value="GENDER:" />
                   </div>
-                  <Select
+                  <select
                     id="gender"
-                    type="text"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     value={gender}
                     onChange={onChange}
                     name="gender"
                     required
                   >
+                    <option></option>
                     <option>MALE</option>
                     <option>FEMALE</option>
-                  </Select>
+                  </select>
                 </div>
                 <div className="max-w-full mb-3">
                   <div className="mb-2 block">

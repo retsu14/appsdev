@@ -18,6 +18,7 @@ import Hero from "./components/LandingPage/Hero";
 import Navbar from "./components/LandingPage/Navbar";
 import About from "./components/LandingPage/About";
 import Events from "./components/LandingPage/Events";
+import Cardd from "./components/Cardd";
 
 const App = () => {
   return (

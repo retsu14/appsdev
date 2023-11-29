@@ -165,7 +165,7 @@ export function Navbar1() {
     <>
       <ToastContainer />
       <Navbar
-        className="max-w-full px-4 py-2 lg:px-8 lg:py-4 rounded-none fixed"
+        className="max-w-full px-4 py-2 lg:px-8 lg:py-4 rounded-none fixed shadow-sm"
         style={{ zIndex: 999999 }}
       >
         <div className="container mx-auto flex items-center justify-between text-blue-gray-900">

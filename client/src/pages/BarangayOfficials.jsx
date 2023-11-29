@@ -1,22 +1,69 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modal1 from "../components/Modal1";
+import Spinner from "../components/Spinner";
+import Cardd from "../components/Cardd";
+import {
+  getBarangayOfficials,
+  reset,
+} from "../features/barangayOfficials/barangaySlice";
 
 const BarangayOfficials = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { user } = useSelector((state) => state.auth);
+
+  const { barangayofficials, isLoading, isError } = useSelector(
+    (state) => state.barangayofficials
+  );
+
+  const positions = [
+    { name: "BRGY. CAPTAIN" },
+    { name: "BRGY. SECRETARY" },
+    { name: "BRGY. TREASURER" },
+    { name: "BRGY. COUNCILOR" },
+  ];
+
   useEffect(() => {
+    if (isError) {
+    }
     if (!user) {
       navigate("/login");
     }
+    dispatch(getBarangayOfficials());
+    return () => {
+      dispatch(reset());
+    };
   }, [user, navigate]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
-    <div className="min-h-screen bg-gray-200 p-5">
-      <div className="text-center text-xl font-bold pt-4">
-        BARANGAY OFFICIAL
+    <div className="min-h-screen bg-gray-100 p-5">
+      <div className="text-center text-xl font-bold p-4 border-b">
+        BARANGAY OFFICIALS
       </div>
-      <Modal1 />
+      <Modal1 name={"Barangay Official"} positions={positions} />
+
+      <div className="w-full">
+        {barangayofficials.length > 0 ? (
+          <div className="lg:justify-start flex gap-5 flex-wrap md:justify-center sm:justify-center">
+            {barangayofficials.map((barangayofficial) => (
+              <Cardd
+                key={barangayofficial._id}
+                barangayofficial={barangayofficial}
+              />
+            ))}
+          </div>
+        ) : (
+          <h3 className="text-center">
+            <i>NO BARANGAY OFFICIALS YET</i>
+          </h3>
+        )}
+      </div>
     </div>
   );
 };

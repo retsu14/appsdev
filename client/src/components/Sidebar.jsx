@@ -26,7 +26,7 @@ export function Sidebar() {
   };
 
   return (
-    <Card className="hidden sm:hidden md:hidden lg:block h-screen w-full max-w-[20rem] shadow-xl z-[999] rounded-none fixed">
+    <Card className="hidden sm:hidden md:hidden lg:block h-screen w-full max-w-[20rem] z-[999] rounded-none fixed">
       <div className="mb-2 p-4 flex items-center gap-5">
         <div className="">
           <img src="ibabao2.png" alt="" className="w-[50px]" />
