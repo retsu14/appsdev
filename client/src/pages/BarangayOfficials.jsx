@@ -43,7 +43,7 @@ const BarangayOfficials = () => {
   }
   return (
     <div className="min-h-screen bg-gray-100 p-5">
-      <div className="text-center text-xl font-bold p-4 border-b">
+      <div className="text-center text-xl font-bold p-4 border-b-[3px]">
         BARANGAY OFFICIALS
       </div>
       <Modal1 name={"Barangay Official"} positions={positions} />
