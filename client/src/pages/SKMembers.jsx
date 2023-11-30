@@ -1,23 +1,62 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Modal1 from "../components/Modal1";
+import Modal2 from "../components/Modal2";
+import Spinner from "../components/Spinner";
+import { getSkmembers, reset } from "../features/skMembers/skSlice";
+import CardSk from "../components/CardSk";
 
 const SKMembers = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { user } = useSelector((state) => state.auth);
 
-  const positions = [{ name: "SK. PRESIDENT" }, { name: "SK. COUNCILOR" }];
+  const { skmembers, isLoading, isError } = useSelector(
+    (state) => state.skmembers
+  );
+
+  const positions = [{ name: "SK. Chairman" }, { name: "SK. Councilor" }];
 
   useEffect(() => {
+    if (isError) {
+    }
     if (!user) {
       navigate("/login");
     }
+    dispatch(getSkmembers());
+    return () => {
+      dispatch(reset());
+    };
   }, [user, navigate]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
-    <div className="min-h-screen bg-gray-200 p-5">
-      <div className="text-center text-xl font-bold pt-4">SK MEMBERS</div>
-      <Modal1 name={"SK Member"} positions={positions} />
+    <div className="min-h-screen bg-gray-100 p-5">
+      <div className="text-center text-xl font-bold p-4 border-b-[3px]">
+        SANGGUNIANG KABATAAN
+      </div>
+      <Modal2 name={"SK Members"} positions={positions} />
+
+      <div className="w-full">
+        {skmembers.length > 0 ? (
+          <div className="lg:justify-start flex gap-5 flex-wrap md:justify-center sm:justify-center">
+            {skmembers.map((skmember) => (
+              <CardSk
+                key={skmember._id}
+                skmembers={skmember}
+                positions={positions}
+              />
+            ))}
+          </div>
+        ) : (
+          <h3 className="text-center">
+            <i>NO SK. MEMBERS YET</i>
+          </h3>
+        )}
+      </div>
     </div>
   );
 };

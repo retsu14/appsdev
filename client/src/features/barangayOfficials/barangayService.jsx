@@ -41,10 +41,24 @@ const deleteBarangayOfficial = async (id, token) => {
 
   return response.data;
 };
+
+//update
+const updateBarangayOfficial = async (id, barangayData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(API_URL + id, barangayData, config);
+
+  return response.data;
+};
 const barangayService = {
   createBarangayOfficial,
   getBarangayOfficials,
   deleteBarangayOfficial,
+  updateBarangayOfficial,
 };
 
 export default barangayService;

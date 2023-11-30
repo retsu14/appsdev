@@ -15,8 +15,8 @@ const skSchema = mongoose.Schema({
     required: [true, "Enter last name"],
   },
   isActive: {
-    type: Boolean,
-    default: true,
+    type: String,
+    required: [true, "Enter status"],
   },
   term: {
     type: Date,

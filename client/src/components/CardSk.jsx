@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { FaRegEdit, FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { useDispatch } from "react-redux";
-import { deleteBarangayOfficial } from "../features/barangayOfficials/barangaySlice";
-import ModalUpdate from "./ModalUpdate";
+import { deleteSkmember } from "../features/skMembers/skSlice";
+import ModalUpdate1 from "./ModalUpdate1";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
-const Cardd = ({ barangayofficial, positions }) => {
+const CardSk = ({ skmembers, positions }) => {
   const dispatch = useDispatch();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -27,7 +27,7 @@ const Cardd = ({ barangayofficial, positions }) => {
       reverseButtons: true, // Reverse the order of the confirm and cancel button
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteBarangayOfficial(barangayofficial._id));
+        dispatch(deleteSkmember(skmembers._id));
         Swal.fire("Deleted!", "Your item has been deleted.", "success");
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "", "error");
@@ -66,9 +66,9 @@ const Cardd = ({ barangayofficial, positions }) => {
               <li>
                 <div className="w-full flex items-center gap-1 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                   <FaRegEdit className="w-[20px] h-[20px]" />
-                  <ModalUpdate
+                  <ModalUpdate1
                     name={"Edit/View"}
-                    barangayofficials={barangayofficial}
+                    skmembers={skmembers}
                     positions={positions}
                   />
                 </div>
@@ -88,16 +88,16 @@ const Cardd = ({ barangayofficial, positions }) => {
         <div className="flex flex-col items-center pb-10">
           <FaUserCircle className="w-24 h-24 mb-3 rounded-full shadow-lg text-gray-400" />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white text-center">
-            {barangayofficial.fname} {barangayofficial.lname}
+            {skmembers.fname} {skmembers.lname}
           </h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">
-            {barangayofficial.position}
+            {skmembers.position}
           </span>
           <div className="flex mt-4 md:mt-6 gap-10">
             <div className="text-sm flex flex-col gap-2">
               Status:
               <div className="flex justify-center">
-                {barangayofficial.isActive === "ACTIVE" ? (
+                {skmembers.isActive === "ACTIVE" ? (
                   <GrStatusGoodSmall className="text-green-500" />
                 ) : (
                   <GrStatusGoodSmall className="text-red-500" />
@@ -106,7 +106,7 @@ const Cardd = ({ barangayofficial, positions }) => {
             </div>
             <div className="text-sm flex flex-col gap-2">
               Age:
-              <div className="text-center">{barangayofficial.age}</div>
+              <div className="text-center">{skmembers.age}</div>
             </div>
           </div>
         </div>
@@ -115,4 +115,4 @@ const Cardd = ({ barangayofficial, positions }) => {
   );
 };
 
-export default Cardd;
+export default CardSk;

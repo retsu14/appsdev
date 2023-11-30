@@ -55,6 +55,7 @@ const BarangayOfficials = () => {
               <Cardd
                 key={barangayofficial._id}
                 barangayofficial={barangayofficial}
+                positions={positions}
               />
             ))}
           </div>

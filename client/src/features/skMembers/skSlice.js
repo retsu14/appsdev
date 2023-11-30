@@ -1,38 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import barangayService from "./barangayService";
+import skService from "./skService";
 
 const initialState = {
-  barangayofficials: [],
+  skmembers: [],
+  isLoading: false,
   isError: false,
   isSuccess: false,
-  isLoading: false,
   message: "",
 };
 
-export const createBarangayOfficial = createAsyncThunk(
-  "barangayofficials/create",
-  async (barangayData, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await barangayService.createBarangayOfficial(barangayData, token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const getBarangayOfficials = createAsyncThunk(
-  "barangayofficials/getAll",
+//get
+export const getSkmembers = createAsyncThunk(
+  "skmembers/get",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await barangayService.getBarangayOfficials(token);
+      return await skService.getSkmembers(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -45,12 +28,49 @@ export const getBarangayOfficials = createAsyncThunk(
   }
 );
 
-export const deleteBarangayOfficial = createAsyncThunk(
-  "barangayofficials/delete",
+//create
+export const createSkmember = createAsyncThunk(
+  "skmembers/create",
+  async (formdata, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await skService.createSkmember(formdata, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+//delete
+export const deleteSkmember = createAsyncThunk(
+  "skmembers/delete",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await barangayService.deleteBarangayOfficial(id, token);
+      return await skService.deleteSkmember(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+//update
+export const updateSkmember = createAsyncThunk(
+  "skmembers/update",
+  async ({ id, skdata }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await skService.updateSkmember(id, skdata, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -63,102 +83,81 @@ export const deleteBarangayOfficial = createAsyncThunk(
   }
 );
 
-export const updateBarangayOfficial = createAsyncThunk(
-  "barangayofficials/update",
-  async ({ id, barangayData }, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await barangayService.updateBarangayOfficial(
-        id,
-        barangayData,
-        token
-      );
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-export const barangaySlice = createSlice({
-  name: "barangayofficials",
+export const skmembersSlice = createSlice({
+  name: "skmembers",
   initialState,
   reducers: {
     reset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
-      //create
-      .addCase(createBarangayOfficial.pending, (state) => {
+      //get
+      .addCase(getSkmembers.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createBarangayOfficial.fulfilled, (state, action) => {
+      .addCase(getSkmembers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.barangayofficials.push(action.payload);
+        state.skmembers = action.payload;
       })
-      .addCase(createBarangayOfficial.rejected, (state, action) => {
+      .addCase(getSkmembers.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      //get
-      .addCase(getBarangayOfficials.pending, (state) => {
+      //create
+      .addCase(createSkmember.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getBarangayOfficials.fulfilled, (state, action) => {
+      .addCase(createSkmember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.barangayofficials = action.payload;
+        state.skmembers.push(action.payload);
       })
-      .addCase(getBarangayOfficials.rejected, (state, action) => {
+      .addCase(createSkmember.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
       //delete
-      .addCase(deleteBarangayOfficial.pending, (state) => {
+      .addCase(deleteSkmember.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteBarangayOfficial.fulfilled, (state, action) => {
+      .addCase(deleteSkmember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.barangayofficials = state.barangayofficials.filter(
-          (barangayofficial) => barangayofficial._id !== action.payload.id
+        state.skmembers = state.skmembers.filter(
+          (skmembers) => skmembers._id !== action.payload.id
         );
       })
-      .addCase(deleteBarangayOfficial.rejected, (state, action) => {
+      .addCase(deleteSkmember.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
       //update
-      .addCase(updateBarangayOfficial.pending, (state) => {
+      .addCase(updateSkmember.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateBarangayOfficial.fulfilled, (state, action) => {
+      .addCase(updateSkmember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         // Find the index of the updated barangay official in the state
-        const index = state.barangayofficials.findIndex(
-          (barangayofficial) => barangayofficial._id === action.payload.id
+        const index = state.skmembers.findIndex(
+          (skmembers) => skmembers._id === action.payload.id
         );
 
         if (index !== -1) {
           // Create a new array with the updated data
-          const updatedBarangayOfficials = [...state.barangayofficials];
-          updatedBarangayOfficials[index] = action.payload;
+          const updatedSkmembers = [...state.skmembers];
+          updatedSkmembers[index] = action.payload;
 
           // Update the state with the new array
-          state.barangayofficials = updatedBarangayOfficials;
+          state.skmembers = updatedSkmembers;
         }
         window.location.reload();
       })
-      .addCase(updateBarangayOfficial.rejected, (state, action) => {
+      .addCase(updateSkmember.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -166,5 +165,5 @@ export const barangaySlice = createSlice({
   },
 });
 
-export const { reset } = barangaySlice.actions;
-export default barangaySlice.reducer;
+export const { reset } = skmembersSlice.actions;
+export default skmembersSlice.reducer;
