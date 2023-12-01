@@ -15,8 +15,8 @@ const householdRecordSchema = mongoose.Schema({
     required: [true, "Please enter household's head name"],
   },
   status: {
-    type: Boolean,
-    default: true,
+    type: String,
+    required: [true, "Please enter status"],
   },
 });
 

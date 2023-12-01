@@ -41,6 +41,9 @@ const createBarangayOfficial = asyncHandler(async (req, res) => {
   }
 
   // Add any additional checks you need for admin create
+  const today = new Date();
+  const birthDate = new Date(birthday);
+  age = today.getFullYear() - birthDate.getFullYear();
 
   const official = await bOfficials.create({
     user: req.user.id,
@@ -81,6 +84,12 @@ const updateBarangayOfficial = asyncHandler(async (req, res) => {
   }
 
   // Add any additional checks you need for admin updates
+  const today = new Date();
+  const birthDate = new Date(req.body.birthday);
+  const age = today.getFullYear() - birthDate.getFullYear();
+
+  // Update the official's age
+  req.body.age = age;
 
   const updatedOfficials = await bOfficials.findByIdAndUpdate(
     req.params.id,

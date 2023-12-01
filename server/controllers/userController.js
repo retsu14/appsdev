@@ -90,6 +90,7 @@ const loginUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         token: token,
+        role: user.role,
         message: "Login Successful",
       });
     } else {

@@ -4,7 +4,8 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please add name"],
+      required: [true, "Please add barangay name"],
+      unique: true,
     },
     email: {
       type: String,
@@ -17,8 +18,8 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ["user", "admin", "resident"],
+      default: "resident",
     },
   },
   {

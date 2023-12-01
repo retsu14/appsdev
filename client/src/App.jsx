@@ -19,8 +19,10 @@ import Navbar from "./components/LandingPage/Navbar";
 import About from "./components/LandingPage/About";
 import Events from "./components/LandingPage/Events";
 import Cardd from "./components/Cardd";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <>
       {/* <div>
@@ -29,35 +31,62 @@ const App = () => {
         <About />
         <Events />
       </div> */}
+
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-        <div className="flex">
-          <Sidebar />
-          <div className="flex flex-col flex-grow overflow-hidden">
-            <Navbar1 />
-            <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route
-                  path="/barangayofficials"
-                  element={<BarangayOfficials />}
-                />
-                <Route path="/skmembers" element={<SKMembers />} />
-                <Route
-                  path="/householdrecords"
-                  element={<HouseholdRecords />}
-                />
-                <Route path="/residentslist" element={<ResidentsList />} />
-                <Route path="/announcements" element={<Announcement />} />
-                <Route path="/feedback" element={<Feedback />} />
-              </Routes>
+        {(user && user.role === "user") || (user && user.role === "admin") ? (
+          <div className="flex">
+            <Sidebar />
+            <div className="flex flex-col flex-grow overflow-hidden">
+              <Navbar1 />
+              <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
+                <Routes>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route
+                    path="/barangayofficials"
+                    element={<BarangayOfficials />}
+                  />
+                  <Route path="/skmembers" element={<SKMembers />} />
+                  <Route
+                    path="/householdrecords"
+                    element={<HouseholdRecords />}
+                  />
+                  <Route path="/residentslist" element={<ResidentsList />} />
+                  <Route path="/announcements" element={<Announcement />} />
+                  <Route path="/feedback" element={<Feedback />} />
+                </Routes>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex">
+            <Sidebar />
+            <div className="flex flex-col flex-grow overflow-hidden">
+              <Navbar1 />
+              <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
+                {/* <Routes>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route
+                    path="/barangayofficials"
+                    element={<BarangayOfficials />}
+                  />
+                  <Route path="/skmembers" element={<SKMembers />} />
+                  <Route
+                    path="/householdrecords"
+                    element={<HouseholdRecords />}
+                  />
+                  <Route path="/residentslist" element={<ResidentsList />} />
+                  <Route path="/announcements" element={<Announcement />} />
+                  <Route path="/feedback" element={<Feedback />} />
+                </Routes> */}
+              </div>
+            </div>
+          </div>
+        )}
       </Router>
       <ToastContainer />
     </>
