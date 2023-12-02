@@ -10,7 +10,7 @@ const residentSchema = mongoose.Schema(
       },
     ],
     nationalid: {
-      type: Number,
+      type: String,
       required: [true, "Please enter your national id number"],
     },
     firstname: {

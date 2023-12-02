@@ -76,19 +76,19 @@ const TABLE_ROWS = [
   },
 ];
 
-function Table() {
+function Table({ title, title2 }) {
   return (
-    <Card className="h-full w-full">
+    <Card className="h-full w-full mt-10">
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
-              Members list
+              {title}
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
             <Button className="flex items-center gap-3" size="sm">
-              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add member
+              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> {title2}
             </Button>
           </div>
         </div>
@@ -134,6 +134,7 @@ function Table() {
 
                 return (
                   <tr key={name}>
+                    {/* 1 */}
                     <td className={classes}>
                       <div className="flex items-center gap-3">
                         <Avatar src={img} alt={name} size="sm" />
@@ -155,6 +156,7 @@ function Table() {
                         </div>
                       </div>
                     </td>
+                    {/* 2 */}
                     <td className={classes}>
                       <div className="flex flex-col">
                         <Typography
@@ -173,6 +175,17 @@ function Table() {
                         </Typography>
                       </div>
                     </td>
+                    {/* 3 */}
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {date}
+                      </Typography>
+                    </td>
+                    {/* 4 */}
                     <td className={classes}>
                       <div className="w-max">
                         <Chip
@@ -183,15 +196,7 @@ function Table() {
                         />
                       </div>
                     </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {date}
-                      </Typography>
-                    </td>
+                    {/* this is for the icon */}
                     <td className={classes}>
                       <Tooltip content="Edit User">
                         <IconButton variant="text">
