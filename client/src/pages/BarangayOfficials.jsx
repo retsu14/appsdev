@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal1 from "../components/Modal1";
 import Spinner from "../components/Spinner";
 import Cardd from "../components/Cardd";
+import Title from "../components/Title";
 import {
   getBarangayOfficials,
   reset,
@@ -43,9 +44,7 @@ const BarangayOfficials = () => {
   }
   return (
     <div className="min-h-screen bg-gray-100 p-5">
-      <div className="text-center text-xl font-bold p-4 border-b-[3px]">
-        BARANGAY OFFICIALS
-      </div>
+      <Title title={"BARANGAY OFFICIALS"} />
       <Modal1 name={"Barangay Official"} positions={positions} />
 
       <div className="w-full">

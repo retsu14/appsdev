@@ -13,13 +13,13 @@ import Announcement from "./pages/Announcement";
 import { ToastContainer } from "react-toastify";
 import Register from "./pages/Register";
 import "react-toastify/dist/ReactToastify.css";
-import { Card1 } from "./components/Card";
 import Hero from "./components/LandingPage/Hero";
 import Navbar from "./components/LandingPage/Navbar";
 import About from "./components/LandingPage/About";
 import Events from "./components/LandingPage/Events";
 import Cardd from "./components/Cardd";
 import { useSelector } from "react-redux";
+import Table from "./components/Table";
 
 const App = () => {
   const { user } = useSelector((state) => state.auth);
@@ -31,7 +31,6 @@ const App = () => {
         <About />
         <Events />
       </div> */}
-
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />

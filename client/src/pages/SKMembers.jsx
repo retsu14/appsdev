@@ -5,7 +5,7 @@ import Modal2 from "../components/Modal2";
 import Spinner from "../components/Spinner";
 import { getSkmembers, reset } from "../features/skMembers/skSlice";
 import CardSk from "../components/CardSk";
-
+import Title from "../components/Title";
 const SKMembers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,11 +35,8 @@ const SKMembers = () => {
   }
   return (
     <div className="min-h-screen bg-gray-100 p-5">
-      <div className="text-center text-xl font-bold p-4 border-b-[3px]">
-        SANGGUNIANG KABATAAN
-      </div>
+      <Title title={"SANGGUNIANG KABATAAN"} />
       <Modal2 name={"SK Members"} positions={positions} />
-
       <div className="w-full">
         {skmembers.length > 0 ? (
           <div className="lg:justify-start flex gap-5 flex-wrap md:justify-center sm:justify-center">

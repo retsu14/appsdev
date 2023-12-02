@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Title from "../components/Title";
 
 const HouseholdRecords = () => {
   const navigate = useNavigate();
@@ -12,10 +13,8 @@ const HouseholdRecords = () => {
     }
   }, [user, navigate]);
   return (
-    <div className="h-screen bg-gray-200">
-      <div className="text-center font-bold text-xl pt-4">
-        HOUSEHOLD RECORDS
-      </div>
+    <div className="min-h-screen bg-gray-100 p-5">
+      <Title title={"HOUSEHOLD RECORDS"} />
     </div>
   );
 };

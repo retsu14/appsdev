@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
 const householdRecordSchema = mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  ],
   householdnumber: {
     type: Number,
     required: [true, "Please enter household number"],

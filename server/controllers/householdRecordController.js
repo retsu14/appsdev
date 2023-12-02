@@ -14,14 +14,18 @@ const getHousehold = asyncHandler(async (req, res) => {
 // @route  GET /api/householdrecords
 // @access Private
 const setHousehold = asyncHandler(async (req, res) => {
-  const { householdnumber, householdheadname, status } = req.body;
+  const { barangayname, householdnumber, householdheadname, status } = req.body;
 
-  if (!householdnumber || !householdheadname || !status) {
+  if (!barangayname || !householdnumber || !householdheadname || !status) {
     res.status(400);
     throw new Error("Error");
   }
+
+  const user = await User.findOne({ name: barangayname });
+
   const household = await Household.create({
-    user: req.user.id,
+    user: [user._id, req.user.id],
+    barangayname,
     householdnumber,
     householdheadname,
     status,
@@ -47,7 +51,7 @@ const updateHousehold = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
   //make sure only the log in user matches the household user
-  if (household.user.toString() !== user.id) {
+  if (!household.user.map((u) => u.toString()).includes(user.id)) {
     res.status(401);
     throw new Error("User not authorized");
   }
@@ -79,7 +83,7 @@ const deleteHousehold = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
   //make sure only the log in user matches the household user
-  if (household.user.toString() !== user.id) {
+  if (!household.user.map((u) => u.toString()).includes(user.id)) {
     res.status(401);
     throw new Error("User not authorized");
   }
