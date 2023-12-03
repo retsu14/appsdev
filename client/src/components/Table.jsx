@@ -1,8 +1,10 @@
+import { useState } from "react";
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { FaTrashAlt } from "react-icons/fa";
+import ModalResidentUpdate from "./ModalResidentUpdate";
 import {
   Card,
   CardHeader,
@@ -10,73 +12,96 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Avatar,
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { useDispatch } from "react-redux";
+import { GrStatusGoodSmall } from "react-icons/gr";
+import ModalHousehold from "./ModalHousehold";
+// import { deleteResident } from "../features/households/Householdslice";
+import Swal from "sweetalert2";
 
 const TABLE_HEAD = [
   "NO.",
-  "HOUSEHOLD MEMBER",
-  "HOUSEHOLD POSITION",
+  "HOUSEHOLD NUMBER",
+  "HOUSEHOLD HEAD NAME",
   "STATUS",
   "ACTION",
 ];
 
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
-  },
-];
+const rowsPerPageOptions = [3, 5, 10]; // Customize options as needed
 
-function Table({ title, title2 }) {
+function Table1({ title, title2, households }) {
+  const dispatch = useDispatch();
+  // const { households } = useSelector((state) => state.households);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const totalRows = households.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleRowsPerPageChange = (value) => {
+    setRowsPerPage(value);
+    setCurrentPage(1);
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
+
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = Math.min(startIndex + rowsPerPage, totalRows);
+
+  const filteredHouseholds = households.filter((household) => {
+    const number = household.householdnumber;
+    const headName = household.householdheadname;
+
+    // Convert the number to a string before calling toLowerCase()
+    const numberString =
+      number && typeof number === "number" ? number.toString() : "";
+
+    // Check if the properties exist and are strings
+    if (
+      (numberString &&
+        numberString.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (headName &&
+        typeof headName === "string" &&
+        headName.toLowerCase().includes(searchQuery.toLowerCase()))
+    ) {
+      return true;
+    }
+
+    return false;
+  });
+
+  const visibleHouseholds = filteredHouseholds.slice(startIndex, endIndex);
+
+  const handleDelete = (residentid) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes!",
+      cancelButtonText: "No!",
+      reverseButtons: true, // Reverse the order of the confirm and cancel button
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // dispatch(deleteResident(residentid));
+        Swal.fire("Deleted!", "", "success");
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "", "error");
+      }
+    });
+  };
+
   return (
     <Card className="h-full w-full mt-10">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -87,9 +112,7 @@ function Table({ title, title2 }) {
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <Button className="flex items-center gap-3" size="sm">
-              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> {title2}
-            </Button>
+            <ModalHousehold name={title2} />
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -97,7 +120,23 @@ function Table({ title, title2 }) {
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
             />
+          </div>
+          <div className="w-24">
+            <label className="text-blue-gray-500 text-sm">Show Entries</label>
+            <select
+              className="w-full border border-blue-gray-300 p-2 rounded"
+              value={rowsPerPage}
+              onChange={(e) => handleRowsPerPageChange(Number(e.target.value))}
+            >
+              {rowsPerPageOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </CardHeader>
@@ -125,101 +164,109 @@ function Table({ title, title2 }) {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
-              ({ img, name, email, job, org, online, date }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+            {visibleHouseholds.map((household, index) => {
+              const absoluteIndex = startIndex + index + 1;
+              const isLast = absoluteIndex === totalRows;
+              const classes = isLast
+                ? "p-4"
+                : "p-4 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={name}>
-                    {/* 1 */}
-                    <td className={classes}>
-                      <div className="flex items-center gap-3">
-                        <Avatar src={img} alt={name} size="sm" />
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {name}
-                          </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            {email}
-                          </Typography>
-                        </div>
-                      </div>
-                    </td>
-                    {/* 2 */}
-                    <td className={classes}>
+              return (
+                <tr key={household._id}>
+                  <td className={classes}>
+                    <div className="flex flex-col">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {absoluteIndex}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex items-center gap-3">
                       <div className="flex flex-col">
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {job}
+                          {household.householdnumber}
                         </Typography>
+                      </div>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col">
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal opacity-70"
                         >
-                          {org}
+                          {household.householdheadname}
                         </Typography>
                       </div>
-                    </td>
-                    {/* 3 */}
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="w-max flex justify-center h-full">
+                      {household.status === "ACTIVE" ? (
+                        <div className="flex items-center gap-3 text-sm">
+                          <GrStatusGoodSmall className="text-green-500" />
+                          ACTIVE
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3 text-sm">
+                          <GrStatusGoodSmall className="text-red-500" />
+                          INACTIVE
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <Tooltip content="Edit/View">
+                      <IconButton variant="text">
+                        {/* <ModalResidentUpdate households={household} /> */}
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip content="Delete">
+                      <IconButton
+                        variant="text"
+                        onClick={() => handleDelete(household._id)}
                       >
-                        {date}
-                      </Typography>
-                    </td>
-                    {/* 4 */}
-                    <td className={classes}>
-                      <div className="w-max">
-                        <Chip
-                          variant="ghost"
-                          size="sm"
-                          value={online ? "online" : "offline"}
-                          color={online ? "green" : "blue-gray"}
-                        />
-                      </div>
-                    </td>
-                    {/* this is for the icon */}
-                    <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              }
-            )}
+                        <FaTrashAlt className="h-4 w-4 text-red-500" />
+                      </IconButton>
+                    </Tooltip>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
+          Page {currentPage} of {totalPages}
         </Typography>
+
         <div className="flex gap-2">
-          <Button variant="outlined" size="sm">
+          <Button
+            variant="outlined"
+            size="sm"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
             Previous
           </Button>
-          <Button variant="outlined" size="sm">
+          <Button
+            variant="outlined"
+            size="sm"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
             Next
           </Button>
         </div>
@@ -228,4 +275,4 @@ function Table({ title, title2 }) {
   );
 }
 
-export default Table;
+export default Table1;

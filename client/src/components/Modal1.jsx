@@ -66,14 +66,21 @@ function Modal1({ name, positions }) {
       purok,
     };
 
-    await dispatch(createBarangayOfficial(data));
-    setFormData("");
-
-    // Your additional form submission logic here
-    Swal.fire({
-      title: "SAVE!",
-      icon: "success",
-    });
+    await dispatch(createBarangayOfficial(data))
+      .then(() => {
+        Swal.fire({
+          title: "SAVE!",
+          icon: "success",
+        });
+        setFormData("");
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: error.message,
+          icon: "error",
+        });
+      });
   };
 
   const onChange = (e) => {

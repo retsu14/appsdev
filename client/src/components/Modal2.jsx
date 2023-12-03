@@ -66,14 +66,21 @@ function Modal2({ name, positions }) {
       purok,
     };
 
-    await dispatch(createSkmember(data));
-    setFormData("");
-
-    // Your additional form submission logic here
-    Swal.fire({
-      title: "SAVE!",
-      icon: "success",
-    });
+    await dispatch(createSkmember(data))
+      .then(() => {
+        Swal.fire({
+          title: "SAVE!",
+          icon: "success",
+        });
+        setFormData("");
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: error.message,
+          icon: "error",
+        });
+      });
   };
 
   const onChange = (e) => {

@@ -3,7 +3,7 @@ import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import ModalResidentUpdate from "./ModalResidentUpdate";
 import {
   Card,
@@ -16,7 +16,7 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import ModalResident from "./ModalResident";
 import { deleteResident } from "../features/residents/residentSlice";
@@ -92,7 +92,7 @@ function Table1({ title, title2, residents }) {
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <ModalResident name={title} />
+            <ModalResident name={title2} />
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">

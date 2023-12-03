@@ -11,6 +11,7 @@ const householdRecordSchema = mongoose.Schema({
   householdnumber: {
     type: Number,
     required: [true, "Please enter household number"],
+    unique: true,
   },
   householdheadname: {
     type: String,
