@@ -33,7 +33,11 @@ const ResidentsList = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-5">
       <Title title={"RESIDENTS LIST"} />
-      <Table1 title="RESIDENTS RECORD" title2="ADD RESIDENT" />
+      <Table1
+        title="RESIDENTS RECORD"
+        title2="ADD RESIDENT"
+        residents={residents}
+      />
     </div>
   );
 };

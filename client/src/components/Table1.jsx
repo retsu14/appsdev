@@ -3,8 +3,8 @@ import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import ModalResidentUpdate from "./ModalResidentUpdate";
 import {
   Card,
   CardHeader,
@@ -16,16 +16,19 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import ModalResident from "./ModalResident";
+import { deleteResident } from "../features/residents/residentSlice";
+import Swal from "sweetalert2";
 
 const TABLE_HEAD = ["NO.", "RESIDENT NAME", "NATIONAL ID", "STATUS", "ACTION"];
 
 const rowsPerPageOptions = [3, 5, 10]; // Customize options as needed
 
-function Table1({ title, title2 }) {
-  const { residents } = useSelector((state) => state.residents);
+function Table1({ title, title2, residents }) {
+  const dispatch = useDispatch();
+  // const { residents } = useSelector((state) => state.residents);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,10 +57,30 @@ function Table1({ title, title2 }) {
     (resident) =>
       resident.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
       resident.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      resident.nationalid.toLowerCase().includes(searchQuery.toLowerCase())
+      resident.nationalid.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      resident.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const visibleResidents = filteredResidents.slice(startIndex, endIndex);
+
+  const handleDelete = (residentid) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes!",
+      cancelButtonText: "No!",
+      reverseButtons: true, // Reverse the order of the confirm and cancel button
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteResident(residentid));
+        Swal.fire("Deleted!", "", "success");
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "", "error");
+      }
+    });
+  };
 
   return (
     <Card className="h-full w-full mt-10">
@@ -129,7 +152,7 @@ function Table1({ title, title2 }) {
                 : "p-4 border-b border-blue-gray-50";
 
               return (
-                <tr key={resident.id}>
+                <tr key={resident._id}>
                   <td className={classes}>
                     <div className="flex flex-col">
                       <Typography
@@ -188,11 +211,15 @@ function Table1({ title, title2 }) {
                   <td className={classes}>
                     <Tooltip content="Edit/View">
                       <IconButton variant="text">
-                        <FaRegEdit className="h-4 w-4" />
+                        <ModalResidentUpdate residents={resident} />
                       </IconButton>
                     </Tooltip>
+
                     <Tooltip content="Delete">
-                      <IconButton variant="text">
+                      <IconButton
+                        variant="text"
+                        onClick={() => handleDelete(resident._id)}
+                      >
                         <FaTrashAlt className="h-4 w-4 text-red-500" />
                       </IconButton>
                     </Tooltip>

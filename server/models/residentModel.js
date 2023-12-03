@@ -105,6 +105,10 @@ const residentSchema = mongoose.Schema(
       type: String,
       required: [true, "Please input your household number"],
     },
+    barangayname: {
+      type: String,
+      
+    }
   },
   {
     timestamps: true,

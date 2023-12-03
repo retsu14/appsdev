@@ -2,14 +2,18 @@ import { Button, Modal } from "flowbite-react";
 import { useState, useEffect } from "react";
 import "./Button1.css";
 import { IoPersonAddSharp } from "react-icons/io5";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { Label, TextInput, FileInput } from "flowbite-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { createResident } from "../features/residents/residentSlice";
+import {
+  createResident,
+  updateResident,
+} from "../features/residents/residentSlice";
 import { useDispatch } from "react-redux";
 
-function ModalResident({ name, positions }) {
+function ModalResidentUpdate({ name, positions, residents }) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     nationalid: "",
@@ -66,6 +70,38 @@ function ModalResident({ name, positions }) {
     barangayname,
   } = formData;
 
+  useEffect(() => {
+    if (residents) {
+      setFormData({
+        nationalid: residents.nationalid,
+        firstname: residents.firstname,
+        middlename: residents.middlename,
+        lastname: residents.lastname,
+        alias: residents.alias,
+        email: residents.email,
+        birthplace: residents.birthplace,
+        birthday: residents.birthday,
+        age: residents.age,
+        civilstatus: residents.civilstatus,
+        gender: residents.gender,
+        status: residents.status,
+        singleparent: residents.singleparent,
+        seniorcitizen: residents.seniorcitizen,
+        pwd: residents.pwd,
+        religion: residents.religion,
+        citizenship: residents.citizenship,
+        contact: residents.contact,
+        occupation: residents.occupation,
+        relation: residents.relation,
+        registeredvoter: residents.registeredvoter,
+        purok: residents.purok,
+        pet: residents.pet,
+        household: residents.household,
+        barangayname: residents.barangayname,
+      });
+    }
+  }, [residents]);
+
   const [openModal, setOpenModal] = useState(false);
 
   const myStyle = {
@@ -105,7 +141,7 @@ function ModalResident({ name, positions }) {
       barangayname,
     };
 
-    await dispatch(createResident(data));
+    await dispatch(updateResident({ id: residents._id, formdata: data }));
     setFormData("");
 
     // Your additional form submission logic here
@@ -123,16 +159,12 @@ function ModalResident({ name, positions }) {
   };
   return (
     <>
-      <div className="flex lg:justify-end sm:justify-right mb-5 mr-5">
-        <Button
-          className="Btn w-[200px] md:mt-5 sm:mt-5"
-          style={myStyle}
-          onClick={() => setOpenModal(true)}
-        >
-          {name}
-          <IoPersonAddSharp className="svg" />
-        </Button>
-      </div>
+      <button
+        className="flex items-center w-max min-h-full"
+        onClick={() => setOpenModal(true)}
+      >
+        <FaRegEdit className="h-4 w-4" />
+      </button>
 
       <Modal
         show={openModal}
@@ -140,7 +172,7 @@ function ModalResident({ name, positions }) {
         className="z-[999999]"
         size={"8xl"}
       >
-        <Modal.Header>Add Resident</Modal.Header>
+        <Modal.Header>Update Resident</Modal.Header>
 
         <Modal.Body>
           <form onSubmit={handleFormSubmit} id="myForm">
@@ -261,7 +293,7 @@ function ModalResident({ name, positions }) {
                   </div>
                   <input
                     id="birthday"
-                    type="date"
+                    type="text"
                     className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     value={birthday}
                     onChange={onChange}
@@ -555,7 +587,7 @@ function ModalResident({ name, positions }) {
           /> */}
 
           <Button className="Btn" form="myForm" type="submit" style={myStyle}>
-            Save
+            Update
           </Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Close
@@ -565,4 +597,4 @@ function ModalResident({ name, positions }) {
     </>
   );
 }
-export default ModalResident;
+export default ModalResidentUpdate;

@@ -13,7 +13,42 @@ const getResidents = async (token) => {
   return response.data;
 };
 
+const createResident = async (formdata, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.post(API_URL, formdata, config);
+
+  return response.data;
+};
+
+const deleteResident = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.delete(API_URL + id, config);
+
+  return response.data;
+};
+
+const updateResident = async (id, formdata, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(API_URL + id, formdata, config);
+
+  return response.data;
+};
 const residentService = {
   getResidents,
+  createResident,
+  deleteResident,
+  updateResident,
 };
 export default residentService;

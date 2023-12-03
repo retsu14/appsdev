@@ -8,7 +8,6 @@ const Household = require("../models/householdRecordModel");
 // @access Private
 const createResident = asyncHandler(async (req, res) => {
   const {
-    barangayname,
     nationalid,
     firstname,
     middlename,
@@ -33,13 +32,13 @@ const createResident = asyncHandler(async (req, res) => {
     purok,
     pet,
     household,
+    barangayname,
   } = req.body;
 
   const user = await User.findOne({ name: barangayname });
   const hnumber = await Household.findOne({ householdnumber: household });
 
   if (
-    !barangayname ||
     !nationalid ||
     !firstname ||
     !middlename ||
@@ -63,7 +62,8 @@ const createResident = asyncHandler(async (req, res) => {
     !registeredvoter ||
     !purok ||
     !pet ||
-    !household
+    !household ||
+    !barangayname
   ) {
     res.status(400);
     throw new Error("Fill out all the fields");
