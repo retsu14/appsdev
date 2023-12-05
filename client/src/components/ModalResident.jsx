@@ -9,6 +9,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import { createResident } from "../features/residents/residentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { Input } from "@material-tailwind/react";
 
 function ModalResident({ name, positions }) {
   const dispatch = useDispatch();
@@ -207,9 +208,10 @@ function ModalResident({ name, positions }) {
                     <div className="mb-2 block">
                       <Label htmlFor="password1" value="FIRSTNAME:" />
                     </div>
-                    <TextInput
+                    <input
                       id="firstname"
                       type="text"
+                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                       value={firstname}
                       onChange={onChange}
                       name="firstname"
@@ -220,9 +222,10 @@ function ModalResident({ name, positions }) {
                     <div className="mb-2 block">
                       <Label htmlFor="password1" value="MIDDLENAME:" />
                     </div>
-                    <TextInput
+                    <input
                       id="middlename"
                       type="text"
+                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                       value={middlename}
                       onChange={onChange}
                       name="middlename"
@@ -233,9 +236,10 @@ function ModalResident({ name, positions }) {
                     <div className="mb-2 block">
                       <Label htmlFor="password1" value="LASTNAME:" />
                     </div>
-                    <TextInput
+                    <input
                       id="lastname"
                       type="text"
+                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                       value={lastname}
                       onChange={onChange}
                       name="lastname"
@@ -273,9 +277,10 @@ function ModalResident({ name, positions }) {
                   <div className="mb-2 block">
                     <Label htmlFor="email1" value="BIRTHPLACE:" />
                   </div>
-                  <TextInput
+                  <input
                     id="birthplace"
                     type="text"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                     value={birthplace}
                     onChange={onChange}
                     name="birthplace"
@@ -433,9 +438,10 @@ function ModalResident({ name, positions }) {
                   <div className="mb-2 block">
                     <Label htmlFor="email1" value="RELIGION:" />
                   </div>
-                  <TextInput
+                  <input
                     id="religion"
                     type="text"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                     value={religion}
                     onChange={onChange}
                     name="religion"
@@ -452,9 +458,10 @@ function ModalResident({ name, positions }) {
                   <div className="mb-2 block">
                     <Label htmlFor="email1" value="CITIZENSHIP:" />
                   </div>
-                  <TextInput
+                  <input
                     id="citizenship"
                     type="text"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                     value={citizenship}
                     onChange={onChange}
                     name="citizenship"
@@ -478,8 +485,9 @@ function ModalResident({ name, positions }) {
                   <div className="mb-2 block">
                     <Label htmlFor="email1" value="OCCUPATION:" />
                   </div>
-                  <TextInput
+                  <input
                     id="occupation"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                     type="text"
                     value={occupation}
                     onChange={onChange}
@@ -491,9 +499,10 @@ function ModalResident({ name, positions }) {
                   <div className="mb-2 block">
                     <Label htmlFor="email1" value="RELATION TO THE HEAD:" />
                   </div>
-                  <TextInput
+                  <input
                     id="relation"
                     type="text"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                     value={relation}
                     onChange={onChange}
                     name="relation"
@@ -560,8 +569,9 @@ function ModalResident({ name, positions }) {
                   <div className="mb-2 block">
                     <Label htmlFor="email1" value="BARANGAY NAME:" />
                   </div>
-                  <TextInput
+                  <input
                     id="barangay"
+                    className="uppercase w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     type="text"
                     value={barangayname}
                     onChange={onChange}

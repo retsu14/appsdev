@@ -13,9 +13,7 @@ const HouseholdRecords = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const { households, isLoading, isError, isSuccess } = useSelector(
-    (state) => state.households
-  );
+  const { households, isLoading } = useSelector((state) => state.households);
 
   useEffect(() => {
     if (!user) {
@@ -32,7 +30,7 @@ const HouseholdRecords = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-5">
+    <div className="min-h-[800px] bg-gray-100 p-5">
       <Title title={"HOUSEHOLD RECORDS"} />
       <Table
         title="HOUSEHOLD INFORMATIONS"

@@ -3,7 +3,7 @@ import Title from "../components/Title";
 
 const BarangayInfo = () => {
   return (
-    <div className="bg-gray-100 min-h-screen p-5">
+    <div className="bg-gray-100 min-h-[800px] p-5">
       <Title title={"BARANGAY INFORMATION"} />
     </div>
   );

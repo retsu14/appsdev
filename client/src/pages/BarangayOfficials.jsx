@@ -43,7 +43,7 @@ const BarangayOfficials = () => {
     return <Spinner />;
   }
   return (
-    <div className="min-h-screen bg-gray-100 p-5">
+    <div className="min-h-[800px] bg-gray-100 p-5">
       <Title title={"BARANGAY OFFICIALS"} />
       <Modal1 name={"Barangay Official"} positions={positions} />
 

@@ -5,9 +5,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { Label, TextInput } from "flowbite-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-
 import { updateHousehold } from "../features/householdRecord/householdSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function ModalHouseholdUpdate({ name, ngalan, households }) {
   const [openModal, setOpenModal] = useState(false);

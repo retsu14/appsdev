@@ -13,7 +13,7 @@ const Announcement = () => {
     }
   }, [user, navigate]);
   return (
-    <div className="h-screen bg-gray-100 p-5">
+    <div className="min-h-[800px] bg-gray-100 p-5">
       <Title title={"ANNOUNCEMENTS"} />
     </div>
   );

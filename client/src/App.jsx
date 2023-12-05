@@ -22,6 +22,8 @@ import { useSelector } from "react-redux";
 import Table from "./components/Table";
 import BarangayInfo from "./pages/BarangayInfo";
 import SidebarForResident from "./components/SidebarForResident";
+import { NavbarResident } from "./components/NavbarResident";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
   const { user } = useSelector((state) => state.auth);
@@ -71,9 +73,13 @@ const App = () => {
           <div className="flex">
             <SidebarForResident />
             <div className="flex flex-col flex-grow overflow-hidden">
-              <Navbar1 />
+              <NavbarResident />
               <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
                 <Routes>
+                  <Route
+                    path="/dashboard"
+                    element={<Navigate to="/residentslist" />}
+                  />
                   <Route path="/residentslist" element={<ResidentsList />} />
                   <Route path="/announcements" element={<Announcement />} />
                   <Route path="/feedback" element={<Feedback />} />

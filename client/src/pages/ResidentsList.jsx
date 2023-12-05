@@ -32,7 +32,7 @@ const ResidentsList = () => {
     return <Spinner />;
   }
   return (
-    <div className="min-h-screen bg-gray-100 p-5">
+    <div className="min-h-[800px] bg-gray-100 p-5">
       <ToastContainer />
       <Title title={"RESIDENTS LIST"} />
       <Table1

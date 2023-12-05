@@ -35,7 +35,7 @@ const SKMembers = () => {
     return <Spinner />;
   }
   return (
-    <div className="min-h-screen bg-gray-100 p-5">
+    <div className="min-h-[800px] bg-gray-100 p-5">
       <Title title={"SANGGUNIANG KABATAAN"} />
       <Modal2 name={"SK Members"} positions={positions} />
       <div className="w-full">

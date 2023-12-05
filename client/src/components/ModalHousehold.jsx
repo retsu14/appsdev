@@ -115,9 +115,10 @@ function ModalHousehold({ name, ngalan }) {
                   <div className="mb-2 block">
                     <Label htmlFor="password1" value="HOUSEHOLD HEAD NAME:" />
                   </div>
-                  <TextInput
+                  <input
                     id="householdheadname"
                     type="text"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
                     value={householdheadname}
                     onChange={onChange}
                     name="householdheadname"
