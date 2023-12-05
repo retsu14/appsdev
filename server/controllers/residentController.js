@@ -34,80 +34,84 @@ const createResident = asyncHandler(async (req, res) => {
     household,
     barangayname,
   } = req.body;
+  try {
+    const user = await User.findOne({ name: barangayname });
+    const hnumber = await Household.findOne({ householdnumber: household });
 
-  const user = await User.findOne({ name: barangayname });
-  const hnumber = await Household.findOne({ householdnumber: household });
+    if (
+      !nationalid ||
+      !firstname ||
+      !middlename ||
+      !lastname ||
+      !alias ||
+      !email ||
+      !birthplace ||
+      !birthday ||
+      !age ||
+      !civilstatus ||
+      !gender ||
+      !status ||
+      !singleparent ||
+      !seniorcitizen ||
+      !pwd ||
+      !religion ||
+      !citizenship ||
+      !contact ||
+      !occupation ||
+      !relation ||
+      !registeredvoter ||
+      !purok ||
+      !pet ||
+      !household ||
+      !barangayname
+    ) {
+      res.status(400);
+      throw new Error("Fill out all the fields");
+    }
 
-  if (
-    !nationalid ||
-    !firstname ||
-    !middlename ||
-    !lastname ||
-    !alias ||
-    !email ||
-    !birthplace ||
-    !birthday ||
-    !age ||
-    !civilstatus ||
-    !gender ||
-    !status ||
-    !singleparent ||
-    !seniorcitizen ||
-    !pwd ||
-    !religion ||
-    !citizenship ||
-    !contact ||
-    !occupation ||
-    !relation ||
-    !registeredvoter ||
-    !purok ||
-    !pet ||
-    !household ||
-    !barangayname
-  ) {
-    res.status(400);
-    throw new Error("Fill out all the fields");
-  }
+    if (!user) {
+      res.status(400);
+      throw new Error("No Barangay Name Registered");
+    }
+    if (!hnumber) {
+      res.status(400);
+      throw new Error("No Household Number Registered");
+    }
 
-  if (!user) {
-    res.status(400);
-    throw new Error("No Barangay Name Registered");
-  }
-  if (!hnumber) {
-    res.status(404);
-    throw new Error("No Household Number Registered");
-  }
+    const resident = await Resident.create({
+      user: [user._id, req.user.id],
+      nationalid,
+      firstname,
+      middlename,
+      lastname,
+      alias,
+      email,
+      birthplace,
+      birthday,
+      age,
+      civilstatus,
+      gender,
+      status,
+      singleparent,
+      seniorcitizen,
+      pwd,
+      religion,
+      citizenship,
+      contact,
+      occupation,
+      relation,
+      registeredvoter,
+      purok,
+      pet,
+      household,
+      barangayname,
+    });
 
-  const resident = await Resident.create({
-    user: [user._id, req.user.id],
-    nationalid,
-    firstname,
-    middlename,
-    lastname,
-    alias,
-    email,
-    birthplace,
-    birthday,
-    age,
-    civilstatus,
-    gender,
-    status,
-    singleparent,
-    seniorcitizen,
-    pwd,
-    religion,
-    citizenship,
-    contact,
-    occupation,
-    relation,
-    registeredvoter,
-    purok,
-    pet,
-    household,
-  });
-
-  if (resident) {
-    res.status(201).json(resident);
+    if (resident) {
+      res.status(201).json(resident);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

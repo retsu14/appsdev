@@ -7,14 +7,13 @@ import { FaUserCircle } from "react-icons/fa";
 import { Label, TextInput, FileInput } from "flowbite-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import {
-  createResident,
-  updateResident,
-} from "../features/residents/residentSlice";
-import { useDispatch } from "react-redux";
+import { updateResident } from "../features/residents/residentSlice";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 function ModalResidentUpdate({ name, positions, residents }) {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     nationalid: "",
     firstname: "",
@@ -109,6 +108,24 @@ function ModalResidentUpdate({ name, positions, residents }) {
     boxShadow: "5px 5px 0px rgb(140, 32, 212)",
   };
 
+  const checkhousehold = async (householdnumber, token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5001/api/householdrecords/${householdnumber}`,
+        config
+      );
+      return !!response;
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     setOpenModal(false);
@@ -140,15 +157,28 @@ function ModalResidentUpdate({ name, positions, residents }) {
       household,
       barangayname,
     };
+    const householdExists = await checkhousehold(
+      formData.household,
+      user.token
+    );
 
-    await dispatch(updateResident({ id: residents._id, formdata: data }));
-    setFormData("");
+    if (!householdExists) {
+      Swal.fire({
+        title: "Error!",
+        text: "Household does not exist. Please enter a valid household number.",
+        icon: "error",
+      });
+      return;
+    } else {
+      await dispatch(updateResident({ id: residents._id, formdata: data }));
+      setFormData("");
 
-    // Your additional form submission logic here
-    Swal.fire({
-      title: "SAVE!",
-      icon: "success",
-    });
+      // Your additional form submission logic here
+      Swal.fire({
+        title: "SAVE!",
+        icon: "success",
+      });
+    }
   };
 
   const onChange = (e) => {
@@ -157,6 +187,7 @@ function ModalResidentUpdate({ name, positions, residents }) {
       [e.target.name]: e.target.value,
     }));
   };
+
   return (
     <>
       <button
@@ -553,6 +584,7 @@ function ModalResidentUpdate({ name, positions, residents }) {
                     onChange={onChange}
                     name="household"
                     required
+                    disabled
                   />
                 </div>
                 <div className="mb-3">
@@ -566,6 +598,7 @@ function ModalResidentUpdate({ name, positions, residents }) {
                     onChange={onChange}
                     name="barangayname"
                     required
+                    disabled
                   />
                 </div>
               </div>

@@ -92,9 +92,33 @@ const deleteHousehold = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
+// @desc   Get Household Record by Household Number
+// @route  GET /api/householdrecords/search/:householdnumber
+// @access Private
+const getHouseholdByNumber = asyncHandler(async (req, res) => {
+  const { householdnumber } = req.params;
+
+  if (!householdnumber) {
+    res.status(400);
+    throw new Error("Missing household number");
+  }
+
+  const household = await Household.findOne({
+    householdnumber,
+  });
+
+  if (!household) {
+    res.status(404);
+    throw new Error("Household not found");
+  }
+
+  res.status(200).json(household);
+});
+
 module.exports = {
   getHousehold,
   setHousehold,
   updateHousehold,
   deleteHousehold,
+  getHouseholdByNumber,
 };

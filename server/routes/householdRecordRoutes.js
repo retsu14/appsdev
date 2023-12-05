@@ -6,6 +6,7 @@ const {
   setHousehold,
   updateHousehold,
   deleteHousehold,
+  getHouseholdByNumber,
 } = require("../controllers/householdRecordController");
 
 router.route("/").get(protect, getHousehold).post(protect, setHousehold);
@@ -13,5 +14,6 @@ router
   .route("/:id")
   .put(protect, updateHousehold)
   .delete(protect, deleteHousehold);
+router.route("/:householdnumber").get(protect, getHouseholdByNumber);
 
 module.exports = router;

@@ -20,6 +20,8 @@ import Events from "./components/LandingPage/Events";
 import Cardd from "./components/Cardd";
 import { useSelector } from "react-redux";
 import Table from "./components/Table";
+import BarangayInfo from "./pages/BarangayInfo";
+import SidebarForResident from "./components/SidebarForResident";
 
 const App = () => {
   const { user } = useSelector((state) => state.auth);
@@ -46,6 +48,10 @@ const App = () => {
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route
+                    path="/barangayinformation"
+                    element={<BarangayInfo />}
+                  />
+                  <Route
                     path="/barangayofficials"
                     element={<BarangayOfficials />}
                   />
@@ -63,25 +69,15 @@ const App = () => {
           </div>
         ) : (
           <div className="flex">
-            <Sidebar />
+            <SidebarForResident />
             <div className="flex flex-col flex-grow overflow-hidden">
               <Navbar1 />
               <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
-                {/* <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route
-                    path="/barangayofficials"
-                    element={<BarangayOfficials />}
-                  />
-                  <Route path="/skmembers" element={<SKMembers />} />
-                  <Route
-                    path="/householdrecords"
-                    element={<HouseholdRecords />}
-                  />
+                <Routes>
                   <Route path="/residentslist" element={<ResidentsList />} />
                   <Route path="/announcements" element={<Announcement />} />
                   <Route path="/feedback" element={<Feedback />} />
-                </Routes> */}
+                </Routes>
               </div>
             </div>
           </div>

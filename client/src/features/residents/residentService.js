@@ -45,6 +45,7 @@ const updateResident = async (id, formdata, token) => {
 
   return response.data;
 };
+
 const residentService = {
   getResidents,
   createResident,

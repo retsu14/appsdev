@@ -8,8 +8,11 @@ const householdRecordSchema = mongoose.Schema({
       ref: "User",
     },
   ],
+  barangayname: {
+    type: String,
+  },
   householdnumber: {
-    type: Number,
+    type: String,
     required: [true, "Please enter household number"],
     unique: true,
   },

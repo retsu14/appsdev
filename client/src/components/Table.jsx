@@ -4,7 +4,7 @@ import {
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { FaTrashAlt } from "react-icons/fa";
-import ModalResidentUpdate from "./ModalResidentUpdate";
+import ModalHouseholdUpdate from "./ModalHouseholdUpdate";
 import {
   Card,
   CardHeader,
@@ -19,8 +19,8 @@ import {
 import { useDispatch } from "react-redux";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import ModalHousehold from "./ModalHousehold";
-// import { deleteResident } from "../features/households/Householdslice";
 import Swal from "sweetalert2";
+import { deleteHousehold } from "../features/householdRecord/householdSlice";
 
 const TABLE_HEAD = [
   "NO.",
@@ -32,7 +32,7 @@ const TABLE_HEAD = [
 
 const rowsPerPageOptions = [3, 5, 10]; // Customize options as needed
 
-function Table1({ title, title2, households }) {
+function Table({ title, title2, households, ngalan }) {
   const dispatch = useDispatch();
   // const { households } = useSelector((state) => state.households);
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,7 +94,7 @@ function Table1({ title, title2, households }) {
       reverseButtons: true, // Reverse the order of the confirm and cancel button
     }).then((result) => {
       if (result.isConfirmed) {
-        // dispatch(deleteResident(residentid));
+        dispatch(deleteHousehold(residentid));
         Swal.fire("Deleted!", "", "success");
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "", "error");
@@ -112,7 +112,7 @@ function Table1({ title, title2, households }) {
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <ModalHousehold name={title2} />
+            <ModalHousehold name={title2} ngalan={ngalan} />
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -228,7 +228,7 @@ function Table1({ title, title2, households }) {
                   <td className={classes}>
                     <Tooltip content="Edit/View">
                       <IconButton variant="text">
-                        {/* <ModalResidentUpdate households={household} /> */}
+                        <ModalHouseholdUpdate households={household} />
                       </IconButton>
                     </Tooltip>
 
@@ -275,4 +275,4 @@ function Table1({ title, title2, households }) {
   );
 }
 
-export default Table1;
+export default Table;

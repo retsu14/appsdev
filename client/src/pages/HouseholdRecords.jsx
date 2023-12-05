@@ -38,6 +38,7 @@ const HouseholdRecords = () => {
         title="HOUSEHOLD INFORMATIONS"
         title2="ADD HOUSEHOLD"
         households={households}
+        ngalan={user.name}
       />
     </div>
   );

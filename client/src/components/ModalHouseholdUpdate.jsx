@@ -1,29 +1,40 @@
 import { Button, Modal } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Button1.css";
-import { IoPersonAddSharp } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
 import { Label, TextInput } from "flowbite-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { createHouseholds } from "../features/householdRecord/householdSlice";
+
+import { updateHousehold } from "../features/householdRecord/householdSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-function ModalHousehold({ name, ngalan }) {
+function ModalHouseholdUpdate({ name, ngalan, households }) {
+  const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    barangayname: ngalan,
+    barangayname: "",
     householdnumber: "",
     householdheadname: "",
     status: "",
   });
   const { barangayname, householdnumber, householdheadname, status } = formData;
 
-  const [openModal, setOpenModal] = useState(false);
-
   const myStyle = {
     backgroundColor: "rgb(168, 38, 255)",
     boxShadow: "5px 5px 0px rgb(140, 32, 212)",
   };
+
+  useEffect(() => {
+    if (households) {
+      setFormData({
+        barangayname: households.barangayname,
+        householdnumber: households.householdnumber,
+        householdheadname: households.householdheadname,
+        status: households.status,
+      });
+    }
+  }, [households]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
@@ -36,7 +47,7 @@ function ModalHousehold({ name, ngalan }) {
       status,
     };
 
-    await dispatch(createHouseholds(data))
+    await dispatch(updateHousehold({ id: households._id, formdata: data }))
       .then(() => {
         Swal.fire({
           title: "SAVE!",
@@ -61,16 +72,12 @@ function ModalHousehold({ name, ngalan }) {
   };
   return (
     <>
-      <div className="flex lg:justify-end sm:justify-right mb-5 mr-5">
-        <Button
-          className="Btn w-[200px] md:mt-5 sm:mt-5"
-          style={myStyle}
-          onClick={() => setOpenModal(true)}
-        >
-          {name}
-          <IoPersonAddSharp className="svg" />
-        </Button>
-      </div>
+      <button
+        className="flex items-center w-max min-h-full"
+        onClick={() => setOpenModal(true)}
+      >
+        <FaRegEdit className="h-4 w-4" />
+      </button>
 
       <Modal
         show={openModal}
@@ -157,4 +164,4 @@ function ModalHousehold({ name, ngalan }) {
     </>
   );
 }
-export default ModalHousehold;
+export default ModalHouseholdUpdate;

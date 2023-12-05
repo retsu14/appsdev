@@ -7,10 +7,12 @@ import { Label, TextInput, FileInput } from "flowbite-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { createResident } from "../features/residents/residentSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 function ModalResident({ name, positions }) {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     nationalid: "",
     firstname: "",
@@ -73,6 +75,23 @@ function ModalResident({ name, positions }) {
     boxShadow: "5px 5px 0px rgb(140, 32, 212)",
   };
 
+  const checkhousehold = async (householdnumber, token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5001/api/householdrecords/${householdnumber}`,
+        config
+      );
+      return !!response;
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     setOpenModal(false);
@@ -105,14 +124,28 @@ function ModalResident({ name, positions }) {
       barangayname,
     };
 
-    await dispatch(createResident(data));
-    setFormData("");
+    const householdExists = await checkhousehold(
+      formData.household,
+      user.token
+    );
 
-    // Your additional form submission logic here
-    Swal.fire({
-      title: "SAVE!",
-      icon: "success",
-    });
+    if (!householdExists) {
+      Swal.fire({
+        title: "Error!",
+        text: "Household does not exist. Please enter a valid household number.",
+        icon: "error",
+      });
+      return;
+    } else {
+      await dispatch(createResident(data));
+      setFormData("");
+
+      // Your additional form submission logic here
+      Swal.fire({
+        title: "SAVE!",
+        icon: "success",
+      });
+    }
   };
 
   const onChange = (e) => {

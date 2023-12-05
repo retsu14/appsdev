@@ -21,6 +21,7 @@ import { GrStatusGoodSmall } from "react-icons/gr";
 import ModalResident from "./ModalResident";
 import { deleteResident } from "../features/residents/residentSlice";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 
 const TABLE_HEAD = ["NO.", "RESIDENT NAME", "NATIONAL ID", "STATUS", "ACTION"];
 
@@ -84,6 +85,7 @@ function Table1({ title, title2, residents }) {
 
   return (
     <Card className="h-full w-full mt-10">
+      <ToastContainer />
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>

@@ -8,6 +8,7 @@ const initialState = {
   isSuccess: false,
   message: "",
 };
+//
 
 export const getResidents = createAsyncThunk(
   "residents/getAll",
@@ -106,6 +107,7 @@ export const residentSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+
       //create
       .addCase(createResident.pending, (state) => {
         state.isLoading = true;
