@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Title from "../components/Title";
-import Spinner from "../components/Spinner";
+import FeedbackResident1 from "../components/FeedbackResident1";
 import { getFeedbacks, reset } from "../features/feedback/feedbackSlice";
-import TableFeedback from "../components/TableFeedback";
+import Spinner from "../components/Spinner";
 
-const Feedback = () => {
-  const dispatch = useDispatch();
+const FeedbackResident = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { feedbacks, isLoading } = useSelector((state) => state.feedbacks);
 
@@ -28,9 +28,11 @@ const Feedback = () => {
   return (
     <div className="min-h-[800px] bg-gray-100 p-5">
       <Title title={"FEEDBACK"} />
-      <TableFeedback title={"FEEDBACKS"} feedbacks={feedbacks} />
+      <div className="bg-white p-4 rounded-md shadow-md mt-10">
+        <FeedbackResident1 />
+      </div>
     </div>
   );
 };
 
-export default Feedback;
+export default FeedbackResident;

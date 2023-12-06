@@ -211,7 +211,7 @@ function ModalResident({ name, positions }) {
                     <input
                       id="firstname"
                       type="text"
-                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
+                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                       value={firstname}
                       onChange={onChange}
                       name="firstname"
@@ -225,7 +225,7 @@ function ModalResident({ name, positions }) {
                     <input
                       id="middlename"
                       type="text"
-                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
+                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                       value={middlename}
                       onChange={onChange}
                       name="middlename"
@@ -239,7 +239,7 @@ function ModalResident({ name, positions }) {
                     <input
                       id="lastname"
                       type="text"
-                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
+                      className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                       value={lastname}
                       onChange={onChange}
                       name="lastname"
@@ -280,7 +280,7 @@ function ModalResident({ name, positions }) {
                   <input
                     id="birthplace"
                     type="text"
-                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     value={birthplace}
                     onChange={onChange}
                     name="birthplace"
@@ -487,7 +487,7 @@ function ModalResident({ name, positions }) {
                   </div>
                   <input
                     id="occupation"
-                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     type="text"
                     value={occupation}
                     onChange={onChange}
@@ -502,7 +502,7 @@ function ModalResident({ name, positions }) {
                   <input
                     id="relation"
                     type="text"
-                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 capitalize"
+                    className="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
                     value={relation}
                     onChange={onChange}
                     name="relation"
@@ -567,7 +567,7 @@ function ModalResident({ name, positions }) {
                 </div>
                 <div className="mb-3">
                   <div className="mb-2 block">
-                    <Label htmlFor="email1" value="BARANGAY NAME:" />
+                    <Label htmlFor="email1" value="BARANGAY NAME:  ex.IBABAO" />
                   </div>
                   <input
                     id="barangay"

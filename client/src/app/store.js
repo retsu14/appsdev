@@ -4,6 +4,7 @@ import barangayReducer from "../features/barangayOfficials/barangaySlice";
 import skmembersReducer from "../features/skMembers/skSlice";
 import residentReducer from "../features/residents/residentSlice";
 import householdReducer from "../features/householdRecord/householdSlice";
+import feedbackReducer from "../features/feedback/feedbackSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     skmembers: skmembersReducer,
     residents: residentReducer,
     households: householdReducer,
+    feedbacks: feedbackReducer,
   },
 });

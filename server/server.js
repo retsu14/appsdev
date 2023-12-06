@@ -26,6 +26,7 @@ app.use("/api/barangayofficials", require("./routes/barangayOfficialsRoutes"));
 app.use("/api/skmembers", require("./routes/skRoutes"));
 app.use("/api/householdrecords", require("./routes/householdRecordRoutes"));
 app.use("/api/residents", require("./routes/residentRoutes"));
+app.use("/api/feedbacks", require("./routes/feedbackRoutes"));
 app.use(errorHandler);
 
 app.listen(port, () => {

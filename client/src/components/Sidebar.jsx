@@ -61,21 +61,19 @@ export function Sidebar() {
             />
           }
         >
-          <Link to="/barangayinformation">
-            <ListItem className="p-0" selected={open === 2}>
-              <AccordionHeader
-                onClick={() => handleOpen(2)}
-                className="border-b-0 p-3"
-              >
-                <ListItemPrefix>
-                  <IoMdInformationCircleOutline />
-                </ListItemPrefix>
-                <Typography color="blue-gray" className="mr-auto fontnioy">
-                  Barangay Information
-                </Typography>
-              </AccordionHeader>
-            </ListItem>
-          </Link>
+          <ListItem className="p-0" selected={open === 2}>
+            <AccordionHeader
+              onClick={() => handleOpen(2)}
+              className="border-b-0 p-3"
+            >
+              <ListItemPrefix>
+                <IoMdInformationCircleOutline />
+              </ListItemPrefix>
+              <Typography color="blue-gray" className="mr-auto fontnioy">
+                Barangay Information
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
               <Link to="/barangayofficials">
