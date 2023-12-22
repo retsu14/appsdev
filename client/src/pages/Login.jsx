@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -75,11 +75,14 @@ const Login = () => {
       [e.target.name]: e.target.value,
     }));
   };
+  const reload = () => {
+    window.location.reload();
+  };
 
   return (
     <>
-      <div className="flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-200 py-10">
-        <div className="flex shadow-md">
+      <div className="flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-100 py-10">
+        <div className="flex bobo">
           <div className="flex flex-wrap content-center justify-center rounded-l-md bg-white w-[24rem] h-[25rem]">
             <div className="w-72">
               <h1 className="text-xl font-semibold">Welcome back</h1>
@@ -139,9 +142,11 @@ const Login = () => {
                 <span className="text-xs text-gray-400 font-semibold">
                   Don't have account?
                 </span>
-                <a href="#" className="text-xs font-semibold text-purple-700">
-                  Sign up
-                </a>
+                <Link to="/register">
+                  <a href="#" className="text-xs font-semibold text-purple-700">
+                    Sign up
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

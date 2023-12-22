@@ -1,19 +1,15 @@
 import React, { useEffect, Fragment } from "react";
-import { CgProfile } from "react-icons/cg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Popover, Transition } from "@headlessui/react";
-import { IoMdNotifications } from "react-icons/io";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaSignOutAlt } from "react-icons/fa";
 import {
   Navbar,
-  MobileNav,
   Collapse,
   Typography,
-  Button,
   IconButton,
 } from "@material-tailwind/react";
 
@@ -180,7 +176,6 @@ export function NavbarResident() {
             </div>
           </div>
           <div className="items-center gap-x-1 hidden sm:hidden md:hidden lg:flex">
-            <IoMdNotifications className="h-6 w-6 text-gray-500" />
             <div>Welcome {user && user.name}</div>
 
             <Popover className="relative">

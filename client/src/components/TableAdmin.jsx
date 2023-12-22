@@ -4,7 +4,6 @@ import {
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { FaTrashAlt } from "react-icons/fa";
-import ModalHouseholdUpdate from "./ModalHouseholdUpdate";
 import {
   Card,
   CardHeader,
@@ -16,30 +15,20 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { useDispatch } from "react-redux";
-import { GrStatusGoodSmall } from "react-icons/gr";
-import ModalHousehold from "./ModalHousehold";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { deleteHousehold } from "../features/householdRecord/householdSlice";
+import ModalAdmin from "./ModalAdmin";
 
-const TABLE_HEAD = [
-  "NO.",
-  "HOUSEHOLD NUMBER",
-  "HOUSEHOLD HEAD NAME",
-  "STATUS",
-  "ACTION",
-];
+const TABLE_HEAD = ["NO.", "NAME", "EMAIL", "ROLE"];
 
 const rowsPerPageOptions = [3, 5, 10]; // Customize options as needed
 
-function Table({ title, title2, households, ngalan }) {
-  const dispatch = useDispatch();
-  // const { households } = useSelector((state) => state.households);
+function TableAdmin({ title, title2, users }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const totalRows = households.length;
+  const totalRows = users.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
 
   const handlePageChange = (newPage) => {
@@ -59,21 +48,16 @@ function Table({ title, title2, households, ngalan }) {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = Math.min(startIndex + rowsPerPage, totalRows);
 
-  const filteredHouseholds = households.filter((household) => {
-    const number = household.householdnumber;
-    const headName = household.householdheadname;
+  const filteredUsers = users.filter((user) => {
+    const headName = user.name;
 
     // Convert the number to a string before calling toLowerCase()
-    const numberString =
-      number && typeof number === "number" ? number.toString() : "";
 
     // Check if the properties exist and are strings
     if (
-      (numberString &&
-        numberString.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (headName &&
-        typeof headName === "string" &&
-        headName.toLowerCase().includes(searchQuery.toLowerCase()))
+      headName &&
+      typeof headName === "string" &&
+      headName.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       return true;
     }
@@ -81,26 +65,7 @@ function Table({ title, title2, households, ngalan }) {
     return false;
   });
 
-  const visibleHouseholds = filteredHouseholds.slice(startIndex, endIndex);
-
-  const handleDelete = (residentid) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes!",
-      cancelButtonText: "No!",
-      reverseButtons: true, // Reverse the order of the confirm and cancel button
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(deleteHousehold(residentid));
-        Swal.fire("Deleted!", "", "success");
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "", "error");
-      }
-    });
-  };
+  const visibleUsers = filteredUsers.slice(startIndex, endIndex);
 
   return (
     <Card className="h-full w-full mt-10">
@@ -112,7 +77,7 @@ function Table({ title, title2, households, ngalan }) {
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <ModalHousehold name={title2} ngalan={ngalan} />
+            <ModalAdmin name1={"Add User"} />
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -164,7 +129,7 @@ function Table({ title, title2, households, ngalan }) {
             </tr>
           </thead>
           <tbody>
-            {visibleHouseholds.map((household, index) => {
+            {visibleUsers.map((user, index) => {
               const absoluteIndex = startIndex + index + 1;
               const isLast = absoluteIndex === totalRows;
               const classes = isLast
@@ -172,7 +137,7 @@ function Table({ title, title2, households, ngalan }) {
                 : "p-4 border-b border-blue-gray-50";
 
               return (
-                <tr key={household._id}>
+                <tr key={user._id}>
                   <td className={classes}>
                     <div className="flex flex-col">
                       <Typography
@@ -185,19 +150,17 @@ function Table({ title, title2, households, ngalan }) {
                     </div>
                   </td>
                   <td className={classes}>
-                    <a href="">
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {household.householdnumber}
-                          </Typography>
-                        </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {user.name}
+                        </Typography>
                       </div>
-                    </a>
+                    </div>
                   </td>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
@@ -207,41 +170,23 @@ function Table({ title, title2, households, ngalan }) {
                           color="blue-gray"
                           className="font-normal opacity-70"
                         >
-                          {household.householdheadname}
+                          {user.email}
                         </Typography>
                       </div>
                     </div>
                   </td>
                   <td className={classes}>
-                    <div className="w-max flex justify-center h-full">
-                      {household.status === "ACTIVE" ? (
-                        <div className="flex items-center gap-3 text-sm">
-                          <GrStatusGoodSmall className="text-green-500" />
-                          ACTIVE
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-3 text-sm">
-                          <GrStatusGoodSmall className="text-red-500" />
-                          INACTIVE
-                        </div>
-                      )}
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal opacity-70"
+                        >
+                          {user.role}
+                        </Typography>
+                      </div>
                     </div>
-                  </td>
-                  <td className={classes}>
-                    <Tooltip content="Edit/View">
-                      <IconButton variant="text">
-                        <ModalHouseholdUpdate households={household} />
-                      </IconButton>
-                    </Tooltip>
-
-                    <Tooltip content="Delete">
-                      <IconButton
-                        variant="text"
-                        onClick={() => handleDelete(household._id)}
-                      >
-                        <FaTrashAlt className="h-4 w-4 text-red-500" />
-                      </IconButton>
-                    </Tooltip>
                   </td>
                 </tr>
               );
@@ -277,4 +222,4 @@ function Table({ title, title2, households, ngalan }) {
   );
 }
 
-export default Table;
+export default TableAdmin;

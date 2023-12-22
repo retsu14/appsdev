@@ -20,29 +20,66 @@ import Events from "./components/LandingPage/Events";
 import Cardd from "./components/Cardd";
 import { useSelector } from "react-redux";
 import Table from "./components/Table";
-import BarangayInfo from "./pages/BarangayInfo";
 import SidebarForResident from "./components/SidebarForResident";
 import { NavbarResident } from "./components/NavbarResident";
 import { Navigate } from "react-router-dom";
 import FeedbackResident from "./pages/FeedbackResident";
+import SidebarAdmin from "./components/SidebarAdmin";
+import AddUser from "./pages/AddUser";
 
 const App = () => {
   const { user } = useSelector((state) => state.auth);
   return (
     <>
-      {/* <div>
-        <Navbar />
-        <Hero />
-        <About />
-        <Events />
-      </div> */}
+      {/*  */}
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <div className="try">
+                <Navbar />
+                <Hero />
+                <About />
+                <Events />
+              </div>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-        {(user && user.role === "user") || (user && user.role === "admin") ? (
+        {user && user.role === "admin" ? (
+          // Code for "admin" role
+          <div className="flex">
+            <SidebarAdmin />
+            <div className="flex flex-col flex-grow overflow-hidden">
+              <NavbarResident />
+              <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
+                <Routes>
+                  <Route path="/adduser" element={<AddUser />} />
+                </Routes>
+              </div>
+            </div>
+          </div>
+        ) : user && user.role === "resident" ? (
+          <div className="flex">
+            <SidebarForResident />
+            <div className="flex flex-col flex-grow overflow-hidden">
+              <NavbarResident />
+              <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
+                <Routes>
+                  <Route
+                    path="/dashboard"
+                    element={<Navigate to="/residentslist" />}
+                  />
+                  <Route path="/residentslist" element={<ResidentsList />} />
+                  <Route path="/announcements" element={<Announcement />} />
+                  <Route path="/feedback" element={<FeedbackResident />} />
+                </Routes>
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="flex">
             <Sidebar />
             <div className="flex flex-col flex-grow overflow-hidden">
@@ -62,24 +99,6 @@ const App = () => {
                   <Route path="/residentslist" element={<ResidentsList />} />
                   <Route path="/announcements" element={<Announcement />} />
                   <Route path="/feedback" element={<Feedback />} />
-                </Routes>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex">
-            <SidebarForResident />
-            <div className="flex flex-col flex-grow overflow-hidden">
-              <NavbarResident />
-              <div className="flex-grow overflow-y-auto lg:ml-[23.5%] lg:mt-[4.5rem] md:mt-[3.5rem] mt-[3.5rem]">
-                <Routes>
-                  <Route
-                    path="/dashboard"
-                    element={<Navigate to="/residentslist" />}
-                  />
-                  <Route path="/residentslist" element={<ResidentsList />} />
-                  <Route path="/announcements" element={<Announcement />} />
-                  <Route path="/feedback" element={<FeedbackResident />} />
                 </Routes>
               </div>
             </div>

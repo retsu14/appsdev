@@ -5,6 +5,8 @@ import skmembersReducer from "../features/skMembers/skSlice";
 import residentReducer from "../features/residents/residentSlice";
 import householdReducer from "../features/householdRecord/householdSlice";
 import feedbackReducer from "../features/feedback/feedbackSlice";
+import announcementReducer from "../features/announcements/announcementSlice";
+import userReducer from "../features/users/userSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +16,7 @@ export const store = configureStore({
     residents: residentReducer,
     households: householdReducer,
     feedbacks: feedbackReducer,
+    announcements: announcementReducer,
+    users: userReducer,
   },
 });

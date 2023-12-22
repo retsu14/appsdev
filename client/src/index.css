@@ -48,7 +48,12 @@ body::before {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
+.try {
+  height: 100vh;
+  width: 100%;
+  background-image: url(brgyibabao.jpg);
+  background-size: cover;
+}
 .Overlay {
   position: fixed;
   top: 0;
@@ -82,4 +87,8 @@ body::before {
   justify-content: center;
   align-items: center;
   z-index: 999999;
+}
+
+.bobo {
+  box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
 }

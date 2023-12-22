@@ -14,11 +14,9 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-import { PresentationChartBarIcon } from "@heroicons/react/24/solid";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-function SidebarForResident() {
+function SidebarAdmin() {
   const [open, setOpen] = React.useState(0);
 
   const handleOpen = (value) => {
@@ -36,28 +34,12 @@ function SidebarForResident() {
         </Typography>
       </div>
       <List>
-        <Link to="/residentslist">
+        <Link to="/adduser">
           <ListItem>
             <ListItemPrefix>
               <FaPeopleGroup />
             </ListItemPrefix>
-            Residents List
-          </ListItem>
-        </Link>
-        <Link to="/announcements">
-          <ListItem>
-            <ListItemPrefix>
-              <MdFeedback />
-            </ListItemPrefix>
-            Announcement
-          </ListItem>
-        </Link>
-        <Link to="/feedback">
-          <ListItem>
-            <ListItemPrefix>
-              <VscFeedback />
-            </ListItemPrefix>
-            Feedback
+            Add User
           </ListItem>
         </Link>
       </List>
@@ -65,4 +47,4 @@ function SidebarForResident() {
   );
 }
 
-export default SidebarForResident;
+export default SidebarAdmin;

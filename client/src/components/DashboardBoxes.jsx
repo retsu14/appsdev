@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import { FaPeopleGroup } from "react-icons/fa6";
-import { GrView } from "react-icons/gr";
 import { IoMdFemale, IoMdMale } from "react-icons/io";
 import { MdPets, MdElderly } from "react-icons/md";
 import { PiAlienFill } from "react-icons/pi";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaWheelchair } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { RiParentFill } from "react-icons/ri";
 
 function DashboardBoxes() {
   const containerRef = useRef();
@@ -30,6 +30,9 @@ function DashboardBoxes() {
   const pwd = residents.filter((resident) => resident.pwd === "YES").length;
   const seniorcitizen = residents.filter(
     (resident) => resident.seniorcitizen === "YES"
+  ).length;
+  const singleparents = residents.filter(
+    (resident) => resident.singleparents === "YES"
   ).length;
 
   useEffect(() => {
@@ -153,6 +156,20 @@ function DashboardBoxes() {
         </div>
         <div className="mt-4 border-b-2 border-gray-400">
           <p className="text-xs text-center">TOTAL SENIOR CITIZEN</p>
+        </div>
+      </BoxWrapper>
+      <BoxWrapper>
+        <div className="flex space-x-4 items-center">
+          <RiParentFill className="h-12 w-12 text-gray-500" />
+          <div className="flex flex-col items-start">
+            <strong className="mb-2">SINGLE PARENTS</strong>
+            <div className="flex items-center justify-center">
+              <strong className="ml-2 text-2xl">{singleparents}</strong>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 border-b-2 border-gray-400">
+          <p className="text-xs text-center">TOTAL SINGLE PARENTS</p>
         </div>
       </BoxWrapper>
     </div>

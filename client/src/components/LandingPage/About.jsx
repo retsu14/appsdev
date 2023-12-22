@@ -5,7 +5,7 @@ const About = () => {
         AB<span className="text-red-600 font-bold">O</span>UT
       </h2>
       <div className="max-w-[1240px] p-12 mx-auto grid md:grid-cols-2 gap-8">
-        <div className="flex flex-col items-center">
+        <div className="   items-center">
           {/* Mission Section */}
           <div className="w-full mb-4 border border-black border-solid border-b-4 shadow-xl rounded-lg hover:scale-105 duration-300">
             <div className="flex flex-col items-center pl-12 pr-6 pt-5 pb-11">

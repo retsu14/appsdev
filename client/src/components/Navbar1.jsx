@@ -180,7 +180,6 @@ export function Navbar1() {
             </div>
           </div>
           <div className="items-center gap-x-1 hidden sm:hidden md:hidden lg:flex">
-            <IoMdNotifications className="h-6 w-6 text-gray-500" />
             <div>Welcome BRGY. {user && user.name}</div>
 
             <Popover className="relative">

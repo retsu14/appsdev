@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Input } from "@material-tailwind/react";
 
-function ModalResident({ name, positions }) {
+function ModalResident({ name }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
@@ -584,19 +584,6 @@ function ModalResident({ name, positions }) {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          {/* <input
-            type="submit"
-            className="Btn"
-            style={myStyle}
-            onClick={() => {
-              setOpenModal(false);
-              Swal.fire({
-                title: "SAVE!",
-                icon: "success",
-              });
-            }}
-          /> */}
-
           <Button className="Btn" form="myForm" type="submit" style={myStyle}>
             Save
           </Button>

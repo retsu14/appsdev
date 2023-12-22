@@ -3,11 +3,16 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 
+const getUsers = asyncHandler(async (req, res) => {
+  const user = await User.find({});
+  res.status(200).json(user);
+});
+
 // @desc   Register New User
 // @route  POST /api/users/register
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("Please add fields");
@@ -18,7 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("Email already exists");
   }
 
   //hash password
@@ -28,14 +33,12 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    role,
   });
 
   if (user) {
     res.status(201).json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
+      message: "Registered Successfully",
     });
   } else {
     res.status(400);
@@ -56,22 +59,6 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(401).json({ message: "Incorrect password or email" });
   }
 
-  // if (user && bcrypt.compare(password, user.password)) {
-  //   const token = generateToken(user._id);
-  //   res
-  //     .cookie("token", token, {
-  //       withCredentials: true,
-  //       httpOnly: false,
-  //     })
-  //     .json({
-  //       _id: user.id,
-  //       name: user.name,
-  //       email: user.email,
-  //     });
-  // } else {
-  //   res.status(400);
-  //   throw new Error("Invalid credentials");
-  // }
   try {
     // Compare passwords
     const isPasswordMatch = await bcrypt.compare(password, user.password);
@@ -79,12 +66,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if (isPasswordMatch) {
       // Passwords match, generate token and send response
       const token = generateToken(user._id);
-      // return res
-      //   .cookie("token", token, {
-      //     withCredentials: true,
-      //     httpOnly: false,
-      //     secure: process.env.NODE_ENV === "production",
-      //   })
+
       res.json({
         _id: user.id,
         name: user.name,
@@ -120,16 +102,10 @@ const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
-
-  // res.cookie("jwt", token, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV !== "development",
-  //   sameSite: "strict",
-  //   maxAge: 30 * 24 * 60 * 60 * 1000,
-  // });
 };
 module.exports = {
   registerUser,
   loginUser,
   getMe,
+  getUsers,
 };

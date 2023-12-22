@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { FaTrashAlt } from "react-icons/fa";
-import ModalHouseholdUpdate from "./ModalHouseholdUpdate";
+import ModalAnnouncement from "./ModalAnnouncement";
 import {
   Card,
   CardHeader,
@@ -17,29 +17,20 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { useDispatch } from "react-redux";
-import { GrStatusGoodSmall } from "react-icons/gr";
-import ModalHousehold from "./ModalHousehold";
 import Swal from "sweetalert2";
-import { deleteHousehold } from "../features/householdRecord/householdSlice";
+import { deleteAnnoucement } from "../features/announcements/announcementSlice";
 
-const TABLE_HEAD = [
-  "NO.",
-  "HOUSEHOLD NUMBER",
-  "HOUSEHOLD HEAD NAME",
-  "STATUS",
-  "ACTION",
-];
+const TABLE_HEAD = ["NO.", "DATE", "TITLE", "ACTION"];
 
 const rowsPerPageOptions = [3, 5, 10]; // Customize options as needed
 
-function Table({ title, title2, households, ngalan }) {
+function TableAnnouncement({ title1, announcements }) {
   const dispatch = useDispatch();
-  // const { households } = useSelector((state) => state.households);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const totalRows = households.length;
+  const [visibleAnnouncements, setVisibleAnnouncements] = useState([]);
+  const totalRows = announcements.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
 
   const handlePageChange = (newPage) => {
@@ -55,35 +46,41 @@ function Table({ title, title2, households, ngalan }) {
     setSearchQuery(query);
     setCurrentPage(1);
   };
-
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = Math.min(startIndex + rowsPerPage, totalRows);
 
-  const filteredHouseholds = households.filter((household) => {
-    const number = household.householdnumber;
-    const headName = household.householdheadname;
+  useEffect(() => {
+    const filteredAnnouncements = announcements.filter((announcement) => {
+      const headName = announcement.title;
 
-    // Convert the number to a string before calling toLowerCase()
-    const numberString =
-      number && typeof number === "number" ? number.toString() : "";
-
-    // Check if the properties exist and are strings
-    if (
-      (numberString &&
-        numberString.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (headName &&
+      if (
+        headName &&
         typeof headName === "string" &&
-        headName.toLowerCase().includes(searchQuery.toLowerCase()))
-    ) {
-      return true;
-    }
+        headName.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        return true;
+      }
+      return false;
+    });
 
-    return false;
-  });
+    const getUniqueAnnouncements = (announcements) => {
+      const uniqueTitles = new Set();
+      return announcements.filter((announcement) => {
+        const title = announcement.title;
 
-  const visibleHouseholds = filteredHouseholds.slice(startIndex, endIndex);
+        if (!uniqueTitles.has(title)) {
+          uniqueTitles.add(title);
+          return true;
+        }
+        return false;
+      });
+    };
 
-  const handleDelete = (residentid) => {
+    const uniqueAnnouncements = getUniqueAnnouncements(filteredAnnouncements);
+    setVisibleAnnouncements(uniqueAnnouncements.slice(startIndex, endIndex));
+  }, [announcements, currentPage, rowsPerPage, searchQuery, totalRows]);
+
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "",
@@ -91,10 +88,10 @@ function Table({ title, title2, households, ngalan }) {
       showCancelButton: true,
       confirmButtonText: "Yes!",
       cancelButtonText: "No!",
-      reverseButtons: true, // Reverse the order of the confirm and cancel button
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteHousehold(residentid));
+        dispatch(deleteAnnoucement(id));
         Swal.fire("Deleted!", "", "success");
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "", "error");
@@ -108,11 +105,11 @@ function Table({ title, title2, households, ngalan }) {
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
-              {title}
+              {title1}
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <ModalHousehold name={title2} ngalan={ngalan} />
+            <ModalAnnouncement name={"Announcement"} />
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -164,15 +161,14 @@ function Table({ title, title2, households, ngalan }) {
             </tr>
           </thead>
           <tbody>
-            {visibleHouseholds.map((household, index) => {
+            {visibleAnnouncements.map((annoucement, index) => {
               const absoluteIndex = startIndex + index + 1;
               const isLast = absoluteIndex === totalRows;
               const classes = isLast
                 ? "p-4"
                 : "p-4 border-b border-blue-gray-50";
-
               return (
-                <tr key={household._id}>
+                <tr key={annoucement._id}>
                   <td className={classes}>
                     <div className="flex flex-col">
                       <Typography
@@ -185,19 +181,17 @@ function Table({ title, title2, households, ngalan }) {
                     </div>
                   </td>
                   <td className={classes}>
-                    <a href="">
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {household.householdnumber}
-                          </Typography>
-                        </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {annoucement.date}
+                        </Typography>
                       </div>
-                    </a>
+                    </div>
                   </td>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
@@ -207,37 +201,21 @@ function Table({ title, title2, households, ngalan }) {
                           color="blue-gray"
                           className="font-normal opacity-70"
                         >
-                          {household.householdheadname}
+                          {annoucement.title}
                         </Typography>
                       </div>
                     </div>
                   </td>
                   <td className={classes}>
-                    <div className="w-max flex justify-center h-full">
-                      {household.status === "ACTIVE" ? (
-                        <div className="flex items-center gap-3 text-sm">
-                          <GrStatusGoodSmall className="text-green-500" />
-                          ACTIVE
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-3 text-sm">
-                          <GrStatusGoodSmall className="text-red-500" />
-                          INACTIVE
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                  <td className={classes}>
                     <Tooltip content="Edit/View">
                       <IconButton variant="text">
-                        <ModalHouseholdUpdate households={household} />
+                        {/* <ModalAnnoucementUpdate announcements={annoucement} /> */}
                       </IconButton>
                     </Tooltip>
-
                     <Tooltip content="Delete">
                       <IconButton
                         variant="text"
-                        onClick={() => handleDelete(household._id)}
+                        onClick={() => handleDelete(annoucement._id)}
                       >
                         <FaTrashAlt className="h-4 w-4 text-red-500" />
                       </IconButton>
@@ -253,7 +231,6 @@ function Table({ title, title2, households, ngalan }) {
         <Typography variant="small" color="blue-gray" className="font-normal">
           Page {currentPage} of {totalPages}
         </Typography>
-
         <div className="flex gap-2">
           <Button
             variant="outlined"
@@ -277,4 +254,4 @@ function Table({ title, title2, households, ngalan }) {
   );
 }
 
-export default Table;
+export default TableAnnouncement;
