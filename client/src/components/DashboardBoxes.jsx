@@ -179,8 +179,17 @@ function DashboardBoxes() {
 export default DashboardBoxes;
 
 function BoxWrapper({ children }) {
+  const gradientColors = ["#c9fadb", "#9bc1fa"]; // Light green and light blue colors
+
+  const gradientStyle = {
+    backgroundImage: `linear-gradient(to right, ${gradientColors[0]}, ${gradientColors[1]})`,
+  };
+
   return (
-    <div className="flex lg:flex-col lg:justify-between shadow-md bg-white sm:flex justify-center flex-col rounded-sm p-6 mb-4 md:mb-0 md:mr-4 w-full md:w-auto">
+    <div
+      className="flex lg:flex-col lg:justify-between shadow-md bg-white sm:flex justify-center flex-col rounded-sm p-6 mb-4 md:mb-0 md:mr-4 w-full md:w-auto"
+      style={gradientStyle}
+    >
       {children}
     </div>
   );

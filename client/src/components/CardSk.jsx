@@ -36,7 +36,12 @@ const CardSk = ({ skmembers, positions }) => {
   };
   return (
     <>
-      <div className="relative w-[14rem] bg-white border shadow-md border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700x">
+      <div
+        className="relative w-[14rem] bg-white border shadow-md border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700x"
+        style={{
+          backgroundImage: "linear-gradient(to right, #c9fadb, #9bc1fa)",
+        }}
+      >
         <div className="flex justify-end px-4 pt-4">
           <button
             id="dropdownButton"

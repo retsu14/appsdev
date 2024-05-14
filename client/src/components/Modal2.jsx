@@ -108,9 +108,19 @@ function Modal2({ name, positions }) {
         className="z-[999999]"
         size={"6xl"}
       >
-        <Modal.Header>Add Barangay Official</Modal.Header>
+        <Modal.Header
+          style={{
+            backgroundImage: "linear-gradient(to right, #c9fadb, #9bc1fa)",
+          }}
+        >
+          Add Barangay Official
+        </Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body
+          style={{
+            backgroundImage: "linear-gradient(to right, #c9fadb, #9bc1fa)",
+          }}
+        >
           <form onSubmit={handleFormSubmit} id="myForm">
             <div className="lg:flex gap-10">
               <div className="lg:w-[50%] border p-5 shadow-md">
@@ -308,7 +318,11 @@ function Modal2({ name, positions }) {
             </div>
           </form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer
+          style={{
+            backgroundImage: "linear-gradient(to right, #c9fadb, #9bc1fa)",
+          }}
+        >
           <Button className="Btn" form="myForm" type="submit" style={myStyle}>
             Save
           </Button>
